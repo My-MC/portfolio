@@ -39,4 +39,8 @@ bun run dev
 
 ## ライセンス
 
-文章・画像などのコンテンツの著作権は作者（My / My-MC）に帰属します。Luminの画面写真・図はALG（ALG-SIT/Lumin）の素材です。フォントは SIL Open Font License 1.1 で、ライセンス文は `public/fonts/` と `src/assets/lumin/OFL.txt` にあります。
+ソースコードは [MIT License](LICENSE) です。ただし、次のものはMITの対象外です。
+
+- `src/content/` の記事・プロジェクト紹介の文章、`src/data/site.ts` のプロフィール情報、`public/og.png` などの個人に関するコンテンツ：著作権は作者（My-MC）に帰属します。
+- `src/assets/lumin/` の画面写真・図：ALG（[ALG-SIT/Lumin](https://github.com/ALG-SIT/Lumin)）の素材です。
+- フォント（Noto Sans JP・Cascadia Mono）：SIL Open Font License 1.1。ライセンス文は `public/fonts/` と `src/assets/lumin/OFL.txt` にあります。
