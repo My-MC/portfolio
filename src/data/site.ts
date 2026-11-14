@@ -126,8 +126,9 @@ export const activities: Activity[] = [
   },
   {
     name: 'SIGINT',
-    // TODO: 活動内容が決まったら interests と text を書く（空なら名前だけ表示）
-    interests: [],
-    text: '',
+    note: 'ネットワーク研究会',
+    interests: ['ネットワーク', 'ルーター・スイッチ', 'AS運用'],
+    text: '芝浦工大のネットワーク研究会。実機のスイッチ・ルーターに触れて学び、部室ネットワークの設計・運用から、将来的なAS運用・ピアリングやイベントのWi-Fi支援までを目指しています。自宅ラボやSDCCで試していることを、仲間と一緒に深められる場所です。',
+    url: 'https://sigint179.net/',
   },
 ];
