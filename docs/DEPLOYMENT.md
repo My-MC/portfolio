@@ -1,6 +1,6 @@
 # Cloudflare Workers への公開
 
-ALG公式サイトと同じく、Workers Builds（GitHub連携）で `main` を本番公開し、それ以外のブランチをプレビューにします。Worker スクリプトやアダプターは使わず、`wrangler.jsonc` の `assets.directory: ./dist` を静的配信するだけです。
+Workers Builds（GitHub連携）で `main` を本番公開し、それ以外のブランチをプレビューにします。Worker スクリプトやアダプターは使わず、`wrangler.jsonc` の `assets.directory: ./dist` を静的配信するだけです。
 
 ## Workers Builds の設定
 

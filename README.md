@@ -1,6 +1,6 @@
 # My-MC Portfolio
 
-My（[@My-MC](https://github.com/My-MC)）のポートフォリオ兼ブログです。[ALG公式サイト](https://github.com/ALG-SIT/website)と同じ構成（Astro + Tailwind CSS v4 + MDX + Pagefind + Biome）で、JavaScriptランタイムにBunを使い、Cloudflare Workers（Static Assets）で静的配信します。
+My（[@My-MC](https://github.com/My-MC)）のポートフォリオ兼ブログです。Astro + Tailwind CSS v4 + MDX + Pagefind + Biome で作り、JavaScriptランタイムにBunを使い、Cloudflare Workers（Static Assets）で静的配信します。
 
 ## 開発
 

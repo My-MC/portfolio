@@ -23,5 +23,3 @@ order: 3
 - Pagefindによる日本語の全文検索
 - Workers Buildsでmainは本番公開、ブランチはnoindex付きプレビュー
 - Biome・型検査・単体テスト・ブラウザテストをGitHub Actionsで実行
-
-このポートフォリオサイトも同じ構成をベースにしています。
