@@ -111,16 +111,24 @@ const terminalData = {
       <label for="terminal-input" class="sr-only">
         ターミナルにコマンドを入力（helpで一覧）
       </label>
-      <input
-        id="terminal-input"
-        class="terminal-input"
-        type="text"
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false"
-        enterkeyhint="send"
-        placeholder="help と入力してみてください"
-      >
+      <span class="terminal-field" data-terminal-field>
+        <input
+          id="terminal-input"
+          class="terminal-input"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="send"
+          placeholder="help と入力してみてください"
+        >
+        <span
+          class="terminal-mirror"
+          aria-hidden="true"
+          data-terminal-mirror
+        ></span>
+        <span class="block-cursor" aria-hidden="true" data-block-cursor></span>
+      </span>
     </form>
   </div>
   <script

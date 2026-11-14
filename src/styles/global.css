@@ -1604,6 +1604,12 @@ dialog::backdrop {
   align-items: center;
   gap: 0.6ch;
 }
+.terminal-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
 .terminal-input {
   flex: 1;
   min-width: 0;
@@ -1612,8 +1618,46 @@ dialog::backdrop {
   outline: 0;
   background: transparent;
   color: var(--term-text);
-  caret-color: var(--term-accent);
+  caret-color: transparent;
   font: inherit;
+}
+.terminal-input:focus-visible {
+  outline: 0;
+}
+/* 幅の計測用（入力欄と同じフォントで、カーソル位置までの文字を置く） */
+.terminal-mirror {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  pointer-events: none;
+}
+/* ブロックカーソル：下の文字を反転表示する */
+.block-cursor {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  min-width: 1ch;
+  line-height: 1.35;
+  white-space: pre;
+  pointer-events: none;
+  color: transparent;
+  box-shadow: inset 0 0 0 1px var(--term-accent);
+}
+.terminal-field.is-focused .block-cursor {
+  background: var(--term-accent);
+  color: var(--term-bg);
+  box-shadow: none;
+  animation: block-blink 1.06s steps(1) infinite;
+}
+.terminal-field.is-typing .block-cursor {
+  animation: none;
+}
+@keyframes block-blink {
+  50% {
+    background: transparent;
+    color: transparent;
+  }
 }
 .terminal-input::placeholder {
   color: var(--term-muted);
@@ -1663,42 +1707,6 @@ dialog::backdrop {
 }
 .packet-2 {
   fill: #3b82f6;
-}
-
-/* スクロールでフェードイン */
-:root.reveal-ready
-  :is(
-    .section-header,
-    .affiliation,
-    .project-card,
-    .post-row,
-    .focus-card,
-    .award-strip a,
-    .award-list li,
-    .social-list li,
-    .skill-table > div
-  ):not(.is-visible) {
-  opacity: 0;
-  transform: translateY(18px);
-}
-:root.reveal-ready
-  :is(
-    .section-header,
-    .affiliation,
-    .project-card,
-    .post-row,
-    .focus-card,
-    .award-strip a,
-    .award-list li,
-    .social-list li,
-    .skill-table > div
-  ) {
-  transition:
-    opacity 0.55s ease,
-    transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-color 0.15s;
-  transition-delay:
-    calc(var(--reveal-i, 0) * 70ms), calc(var(--reveal-i, 0) * 70ms), 0s;
 }
 
 /* ホバーで枠が光って一周する */
@@ -1832,7 +1840,9 @@ dialog::backdrop {
   .neofetch-art {
     display: none;
   }
-  .terminal-input {
+  .terminal-input,
+  .terminal-mirror,
+  .block-cursor {
     font-size: 16px;
   }
   .network-bg {

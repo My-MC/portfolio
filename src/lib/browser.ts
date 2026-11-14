@@ -246,34 +246,6 @@ if ('boot' in document.documentElement.dataset && bootScreen) {
   document.addEventListener('keydown', finish, { once: true });
 }
 
-// スクロールに合わせたフェードイン。JSが動かない場合は最初から表示される。
-const revealTargets = document.querySelectorAll<HTMLElement>(
-  '.section-header, .affiliation, .project-card, .post-row, .focus-card, .award-strip a, .award-list li, .activity-list li, .social-list li, .skill-table > div',
-);
-if (motion && 'IntersectionObserver' in window) {
-  document.documentElement.classList.add('reveal-ready');
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    },
-    { rootMargin: '0px 0px -8% 0px' },
-  );
-  for (const target of revealTargets) {
-    const siblings = target.parentElement
-      ? [...target.parentElement.children]
-      : [];
-    target.style.setProperty(
-      '--reveal-i',
-      String(Math.min(siblings.indexOf(target), 6)),
-    );
-    observer.observe(target);
-  }
-}
-
 // ボタン・ナビのデコード風ホバー
 const glyphs = {
   ascii: '!<>-_\\/[]{}=+*^?#01',

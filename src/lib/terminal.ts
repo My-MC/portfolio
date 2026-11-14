@@ -262,6 +262,43 @@ if (root && body && log && form && input && raw) {
       commands.clear([]);
     }
   });
+  // ブロックカーソル：入力欄のキャレット位置に反転ブロックを重ねる
+  const field = root.querySelector<HTMLElement>('[data-terminal-field]');
+  const mirror = root.querySelector<HTMLElement>('[data-terminal-mirror]');
+  const block = root.querySelector<HTMLElement>('[data-block-cursor]');
+  let typingTimer: ReturnType<typeof setTimeout>;
+  const updateCursor = () => {
+    if (!field || !mirror || !block) return;
+    const value = input.value;
+    const position = input.selectionStart ?? value.length;
+    mirror.textContent = value.slice(0, position);
+    block.textContent = value
+      ? (value[position] ?? ' ')
+      : (input.placeholder[0] ?? ' ');
+    block.style.left = `${mirror.offsetWidth - input.scrollLeft}px`;
+  };
+  const onTyping = () => {
+    // 入力中は点滅を止めて、カーソルが見え続けるようにする
+    field?.classList.add('is-typing');
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => field?.classList.remove('is-typing'), 500);
+    requestAnimationFrame(updateCursor);
+  };
+  for (const type of ['input', 'keydown', 'click', 'select'])
+    input.addEventListener(type, onTyping);
+  input.addEventListener('scroll', updateCursor);
+  document.addEventListener('selectionchange', () => {
+    if (document.activeElement === input) updateCursor();
+  });
+  input.addEventListener('focus', () => {
+    field?.classList.add('is-focused');
+    updateCursor();
+  });
+  input.addEventListener('blur', () => field?.classList.remove('is-focused'));
+  form.addEventListener('submit', () => requestAnimationFrame(updateCursor));
+  updateCursor();
+  void document.fonts?.ready.then(updateCursor);
+
   // ターミナルのどこを押しても入力欄にフォーカス（リンクと選択中は除く）
   body.addEventListener('click', (event) => {
     if ((event.target as HTMLElement).closest('a')) return;
