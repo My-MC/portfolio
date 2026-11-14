@@ -8,7 +8,7 @@ tags: [web]
 role: 設計・実装
 repositoryUrl: https://github.com/ALG-SIT/website
 websiteUrl: https://alg-sit.club/
-featured: true
+featured: false
 order: 3
 ---
 

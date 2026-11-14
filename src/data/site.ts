@@ -120,8 +120,8 @@ export const activities: Activity[] = [
   {
     name: 'ALG',
     note: 'AI Love GPU',
-    interests: ['AI', 'GPU基盤', 'Web'],
-    text: 'AIとGPUのサークル。公認化を目指して活動中で、共有GPU資源の運用やAI駆動開発に取り組んでいます。公式サイトの設計・実装も担当しました。',
+    interests: ['AI', 'オンデバイスAI', 'GPU基盤', 'Web'],
+    text: 'AIとGPUのサークル。公認化を目指して活動中で、共有GPU資源の運用やAI駆動開発に取り組んでいます。チーム「Luminous Studying」として開発した学習支援アプリLuminでSBMC 2026の銅賞を受賞し、公式サイトの設計・実装も担当しました。',
     url: 'https://alg-sit.club/',
   },
   {
@@ -130,5 +130,28 @@ export const activities: Activity[] = [
     interests: ['ネットワーク', 'ルーター・スイッチ', 'AS運用'],
     text: '芝浦工大のネットワーク研究会。実機のスイッチ・ルーターに触れて学び、部室ネットワークの設計・運用から、将来的なAS運用・ピアリングやイベントのWi-Fi支援までを目指しています。自宅ラボやSDCCで試していることを、仲間と一緒に深められる場所です。',
     url: 'https://sigint179.net/',
+  },
+];
+
+export interface Award {
+  date: string;
+  title: string;
+  result: string;
+  detail: string;
+  /** サイト内のプロジェクトページ */
+  project?: string;
+  url?: string;
+}
+
+export const awards: Award[] = [
+  {
+    date: '2026-09-27',
+    title:
+      '第11回 芝浦ビジネスモデルコンペティション（SBMC）ビジネスアイデア部門',
+    result: '銅賞',
+    detail:
+      'ALGメンバーのチーム「Luminous Studying」として、端末内AIで学習を支援するアプリ「Lumin」を提案。',
+    project: '/projects/lumin/',
+    url: 'https://www.shibaura-it.ac.jp/headline/detail/20260927_7070_2.html',
   },
 ];

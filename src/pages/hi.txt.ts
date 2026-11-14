@@ -32,6 +32,7 @@ export function GET() {
     `  ${label('Faculty')}${profile.school.faculty}`,
     `  ${label('Course')}${profile.school.course}`,
     `  ${label('Clubs')}${activities.map((a) => a.name.replace('文化会 ', '')).join(' / ')}`,
+    `  ${label('Award')}SBMC 2026 銅賞（Lumin / ALG）`,
     `  ${label('Likes')}${profile.interests.join(', ')}`,
     '',
     ...social.map((item) => `  ${label(item.label)}${item.url}`),

@@ -2,7 +2,7 @@
 import Affiliations from '../components/Affiliations.astro';
 import PageHeading from '../components/PageHeading.astro';
 import SocialLinks from '../components/SocialLinks.astro';
-import { profile, skills } from '../data/site';
+import { awards, profile, skills } from '../data/site';
 import Base from '../layouts/Base.astro';
 ---
 
@@ -55,6 +55,32 @@ import Base from '../layouts/Base.astro';
         所属・活動
       </h2>
       <Affiliations />
+    </section>
+    <section class="section-sm" aria-labelledby="awards-title">
+      <h2 id="awards-title" class="sub-heading">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        受賞
+      </h2>
+      <ul class="award-list">
+        {awards.map((award) => (
+          <li>
+            <p class="award-head">
+              <time class="mono" datetime={award.date}>
+                {award.date.replaceAll('-', '/')}
+              </time>
+              <span class="award-badge">🏆 {award.result}</span>
+            </p>
+            <h3>{award.title}</h3>
+            <p>{award.detail}</p>
+            <p class="award-links">
+              {award.project && (
+                <a href={award.project}>プロジェクトを見る →</a>
+              )}
+              {award.url && <a href={award.url}>大学の公式記事 ↗</a>}
+            </p>
+          </li>
+        ))}
+      </ul>
     </section>
     <section class="section-sm" aria-labelledby="skills-title">
       <h2 id="skills-title" class="sub-heading">

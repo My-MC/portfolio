@@ -1,5 +1,5 @@
 ---
-import { activities, profile, social } from '../data/site';
+import { activities, awards, profile, social } from '../data/site';
 
 const art = [
   '     \\ | /     ',
@@ -23,6 +23,12 @@ const rows: [string, string][] = [
       .map((activity) => activity.name.replace('文化会 ', ''))
       .join(' / '),
   ],
+  ...awards
+    .slice(0, 1)
+    .map(
+      (award) =>
+        ['Award', `SBMC 2026 ${award.result}（Lumin）`] as [string, string],
+    ),
   ['Homelab', 'Proxmox VE / Incus / VyOS'],
   ['Network', 'SDCC (BGP, IPv6)'],
   ['Langs', 'Rust / Python / TypeScript'],
