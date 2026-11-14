@@ -5,8 +5,16 @@ updates:
     schedule:
       interval: weekly
     groups:
+      # astro と Markdown 処理系（satteri）は互いのバージョンに依存するのでまとめて上げる
       astro:
-        patterns: ["astro", "@astrojs/*"]
+        patterns: ["astro", "@astrojs/*", "satteri"]
+      # tailwindcss と @tailwindcss/vite は同じバージョンにそろえる
+      tailwind:
+        patterns: ["tailwindcss", "@tailwindcss/*"]
+    ignore:
+      # astro check が TypeScript 7 に未対応（Astro 側の対応後に外す）
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
