@@ -1,0 +1,33 @@
+---
+import { activities } from '../data/site';
+
+interface Props {
+  headingLevel?: 'h3' | 'h4';
+}
+const { headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<ul class="affiliations">
+  {activities.map((activity) => (
+    <li class="affiliation">
+      <Heading class="affiliation-name">
+        {activity.url ? (
+          <a href={activity.url} rel="noopener">
+            {activity.name} <span aria-hidden="true">↗</span>
+          </a>
+        ) : (
+          activity.name
+        )}
+      </Heading>
+      {activity.note && <p class="affiliation-note mono">{activity.note}</p>}
+      {activity.text && <p class="affiliation-text">{activity.text}</p>}
+      {activity.interests.length > 0 && (
+        <ul class="tech-list" aria-label={`${activity.name}での関心`}>
+          {activity.interests.map((interest) => (
+            <li>{interest}</li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>

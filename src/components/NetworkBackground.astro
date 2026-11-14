@@ -1,0 +1,106 @@
+---
+/** ヒーロー背景のネットワーク図。線の上をパケットが流れる（装飾）。 */
+---
+
+<svg
+  class="network-bg"
+  viewBox="0 0 1200 680"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+  data-network-bg
+>
+  <g class="network-links">
+    <line x1="80" y1="90" x2="260" y2="180" />
+    <line x1="260" y1="180" x2="180" y2="360" />
+    <line x1="260" y1="180" x2="420" y2="80" />
+    <line x1="420" y1="80" x2="520" y2="300" />
+    <line x1="180" y1="360" x2="380" y2="520" />
+    <line x1="520" y1="300" x2="380" y2="520" />
+    <line x1="520" y1="300" x2="650" y2="170" />
+    <line x1="420" y1="80" x2="650" y2="170" />
+    <line x1="650" y1="170" x2="880" y2="110" />
+    <line x1="650" y1="170" x2="760" y2="420" />
+    <line x1="760" y1="420" x2="990" y2="300" />
+    <line x1="880" y1="110" x2="990" y2="300" />
+    <line x1="990" y1="300" x2="1120" y2="180" />
+    <line x1="1120" y1="180" x2="1150" y2="420" />
+    <line x1="990" y1="300" x2="1060" y2="520" />
+    <line x1="1060" y1="520" x2="860" y2="580" />
+    <line x1="860" y1="580" x2="600" y2="600" />
+    <line x1="760" y1="420" x2="860" y2="580" />
+    <line x1="380" y1="520" x2="600" y2="600" />
+    <line x1="380" y1="520" x2="300" y2="600" />
+    <line x1="180" y1="360" x2="300" y2="600" />
+    <line x1="1060" y1="520" x2="1150" y2="420" />
+    <line x1="880" y1="110" x2="1120" y2="180" />
+  </g>
+  <g class="network-nodes">
+    <circle cx="80" cy="90" r="4" />
+    <circle cx="260" cy="180" r="4" />
+    <circle cx="180" cy="360" r="4" />
+    <circle cx="420" cy="80" r="4" />
+    <circle cx="520" cy="300" r="4" />
+    <circle cx="380" cy="520" r="4" />
+    <circle cx="650" cy="170" r="4" />
+    <circle cx="760" cy="420" r="4" />
+    <circle cx="880" cy="110" r="4" />
+    <circle cx="990" cy="300" r="4" />
+    <circle cx="1120" cy="180" r="4" />
+    <circle cx="1060" cy="520" r="4" />
+    <circle cx="860" cy="580" r="4" />
+    <circle cx="600" cy="600" r="4" />
+    <circle cx="1150" cy="420" r="4" />
+    <circle cx="300" cy="600" r="4" />
+  </g>
+  <g class="network-packets">
+    <circle r="3.2" class="packet packet-0">
+      <animateMotion
+        dur="9.0s"
+        begin="-0.0s"
+        repeatCount="indefinite"
+        path="M80 90 L260 180 L420 80 L650 170 L880 110 L1120 180"
+      />
+    </circle>
+    <circle r="3.2" class="packet packet-1">
+      <animateMotion
+        dur="10.7s"
+        begin="-2.3s"
+        repeatCount="indefinite"
+        path="M300 600 L380 520 L520 300 L650 170 L760 420 L990 300 L1060 520"
+      />
+    </circle>
+    <circle r="3.2" class="packet packet-2">
+      <animateMotion
+        dur="12.4s"
+        begin="-4.6s"
+        repeatCount="indefinite"
+        path="M180 360 L260 180 L420 80 L520 300 L760 420 L860 580 L600 600"
+      />
+    </circle>
+    <circle r="3.2" class="packet packet-0">
+      <animateMotion
+        dur="14.1s"
+        begin="-6.9s"
+        repeatCount="indefinite"
+        path="M1150 420 L1120 180 L990 300 L880 110 L650 170 L520 300 L380 520 L300 600"
+      />
+    </circle>
+    <circle r="3.2" class="packet packet-1">
+      <animateMotion
+        dur="15.8s"
+        begin="-9.2s"
+        repeatCount="indefinite"
+        path="M860 580 L1060 520 L990 300 L760 420 L650 170 L420 80 L80 90"
+      />
+    </circle>
+    <circle r="3.2" class="packet packet-2">
+      <animateMotion
+        dur="17.5s"
+        begin="-11.5s"
+        repeatCount="indefinite"
+        path="M600 600 L380 520 L180 360 L260 180"
+      />
+    </circle>
+  </g>
+</svg>
