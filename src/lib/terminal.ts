@@ -22,9 +22,19 @@ const log = root?.querySelector<HTMLElement>('[data-terminal-log]');
 const form = root?.querySelector<HTMLFormElement>('[data-terminal-form]');
 const input = root?.querySelector<HTMLInputElement>('#terminal-input');
 const raw = document.querySelector('#terminal-data')?.textContent;
+const parseData = (text: string | null | undefined) => {
+  if (!text) return undefined;
+  try {
+    return JSON.parse(text) as TerminalData;
+  } catch {
+    return undefined;
+  }
+};
+const data = parseData(raw);
 
-if (root && body && log && form && input && raw) {
-  const data = JSON.parse(raw) as TerminalData;
+if (root && body && log && form && input && data) {
+  // clear 後に neofetch で出し直せるよう、最初の表示を控えておく
+  const neofetchTemplate = root.querySelector('.neofetch')?.cloneNode(true);
   const history: string[] = [];
   let cursor = 0;
 
@@ -150,7 +160,7 @@ if (root && body && log && form && input && raw) {
     },
     cd: (args) => {
       const target = (args[0] ?? '~').replace(/^\/|\/$/g, '');
-      const path = pages[target];
+      const path = Object.hasOwn(pages, target) ? pages[target] : undefined;
       if (path) go(path);
       else
         return [`cd: ${target}: そのようなファイルやディレクトリはありません`];
@@ -178,6 +188,10 @@ if (root && body && log && form && input && raw) {
         href: item.url,
       })),
     neofetch: () => {
+      if (!root.querySelector('.neofetch') && neofetchTemplate) {
+        log.append(neofetchTemplate.cloneNode(true));
+        return [];
+      }
       root.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return ['↑ 上に出ています'];
     },
@@ -250,11 +264,16 @@ if (root && body && log && form && input && raw) {
     history.push(trimmed);
     cursor = history.length;
     const [name = '', ...args] = trimmed.split(/\s+/);
-    const command = commands[name.toLowerCase()];
-    const output = command
-      ? command(args)
-      : [`${name}: command not found（help で一覧）`];
-    if (output) print(output);
+    const key = name.toLowerCase();
+    const command = Object.hasOwn(commands, key) ? commands[key] : undefined;
+    try {
+      const output = command
+        ? command(args)
+        : [`${name}: command not found（help で一覧）`];
+      if (output) print(output);
+    } catch {
+      print([{ tone: 'warn', text: `${name}: command failed` }]);
+    }
   };
 
   form.addEventListener('submit', (event) => {
@@ -281,7 +300,7 @@ if (root && body && log && form && input && raw) {
         event.preventDefault();
         input.value = `${match[0]} `;
       }
-    } else if (event.key === 'l' && event.ctrlKey) {
+    } else if (event.key.toLowerCase() === 'l' && event.ctrlKey) {
       event.preventDefault();
       commands.clear([]);
     }
@@ -296,9 +315,13 @@ if (root && body && log && form && input && raw) {
     const value = input.value;
     const position = input.selectionStart ?? value.length;
     mirror.textContent = value.slice(0, position);
+    // サロゲートペア（絵文字など）を割らないよう、コードポイント単位で取る
+    const next = value.slice(position).codePointAt(0);
     block.textContent = value
-      ? (value[position] ?? ' ')
-      : (input.placeholder[0] ?? ' ');
+      ? next === undefined
+        ? ' '
+        : String.fromCodePoint(next)
+      : ([...input.placeholder][0] ?? ' ');
     block.style.left = `${mirror.offsetWidth - input.scrollLeft}px`;
   };
   const onTyping = () => {
@@ -324,7 +347,9 @@ if (root && body && log && form && input && raw) {
   void document.fonts?.ready.then(updateCursor);
 
   // ターミナルのどこを押しても入力欄にフォーカス（リンクと選択中は除く）
+  // スマホでは不意にキーボードが出ないよう、マウス操作のときだけ
   body.addEventListener('click', (event) => {
+    if (!matchMedia('(pointer: fine)').matches) return;
     if ((event.target as HTMLElement).closest('a')) return;
     if (getSelection()?.toString()) return;
     input.focus({ preventScroll: true });

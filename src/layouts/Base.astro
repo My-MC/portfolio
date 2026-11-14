@@ -158,7 +158,7 @@ const isCurrent = (href: string) => Astro.url.pathname.startsWith(href);
         document.documentElement.dataset.motion = 'on';
         // トップの初回表示（タブごと）だけ起動ログを流す。?boot で再生。
         try {
-          const force = location.search.includes('boot');
+          const force = new URLSearchParams(location.search).has('boot');
           if (
             location.pathname === '/' &&
             (force || !sessionStorage.getItem('portfolio-booted'))

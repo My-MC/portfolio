@@ -35,6 +35,8 @@ for (const file of sources) {
   const source = await readFile(file, 'utf8');
   if (built) {
     const $ = load(source);
+    // ターミナル用のJSONデータにしか出ない文字も拾う
+    text += $('script[type="application/json"]').text();
     $('script,style').remove();
     text += $('body').text();
     text += $('title').text();

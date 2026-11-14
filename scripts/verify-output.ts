@@ -85,7 +85,7 @@ assert(
   preview ? robotsTxt.includes('Disallow: /') : robotsTxt.includes('Allow: /'),
   'robots.txtの公開設定がビルド種別と一致しません',
 );
-if (release) {
+if (release || branch === 'main') {
   assert(
     /^https:\/\//.test(site.url) && !site.url.includes('localhost'),
     '本番ビルドにはSITE_URL（https://...）の設定が必要です',

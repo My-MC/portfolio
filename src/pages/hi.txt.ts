@@ -40,7 +40,7 @@ export function GET() {
     ...social.map((item) => `  ${label(item.label)}${item.url}`),
     `  ${label('Web')}${site.url}/`,
     '',
-    `  ${yellow('名刺を受け取ってくれてありがとう！ 気軽に話しかけてください。')}`,
+    `  ${yellow('名刺を受け取ってくださりありがとうございます！ 気軽に声をかけてください。')}`,
     `  ${dim('(this card is served as a static file from Cloudflare Workers)')}`,
     '',
   ];

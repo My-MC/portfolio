@@ -50,6 +50,7 @@ menuButton?.addEventListener('click', () => {
   document.querySelector('#mobile-nav')?.classList.toggle('is-open', expanded);
 });
 document.addEventListener('keydown', (event) => {
+  if (document.querySelector('dialog[open]')) return;
   if (
     event.key === 'Escape' &&
     menuButton?.getAttribute('aria-expanded') === 'true'
@@ -90,8 +91,10 @@ for (const pre of document.querySelectorAll('.prose .code-wrapper pre')) {
         pre.querySelector('code')?.textContent ?? '',
       );
       button.textContent = 'コピーしました';
+      toast('コードをコピーしました');
     } catch {
       button.textContent = 'コピーできませんでした';
+      toast('コピーできませんでした');
     }
     setTimeout(() => {
       button.textContent = 'コピー';
@@ -223,7 +226,11 @@ const toastElement = document.querySelector<HTMLElement>('[data-toast]');
 let toastTimer: ReturnType<typeof setTimeout>;
 export function toast(message: string) {
   if (!toastElement) return;
-  toastElement.textContent = message;
+  // 同じ文言でも読み上げ直されるよう、一度空にしてから入れる
+  toastElement.textContent = '';
+  requestAnimationFrame(() => {
+    toastElement.textContent = message;
+  });
   toastElement.classList.add('is-visible');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(
@@ -235,15 +242,30 @@ export function toast(message: string) {
 // 起動ログ：クリック・キー入力でスキップ。終わったら属性を外す。
 const bootScreen = document.querySelector<HTMLElement>('[data-boot-screen]');
 if ('boot' in document.documentElement.dataset && bootScreen) {
+  // 表示中は背後にフォーカスが入らないようにする
+  const behind = document.querySelectorAll<HTMLElement>(
+    '.site-header, main, .site-footer',
+  );
+  for (const element of behind) element.inert = true;
+  let done = false;
   const finish = () => {
+    if (done) return;
+    done = true;
     delete document.documentElement.dataset.boot;
     document.documentElement.dataset.booted = '';
+    for (const element of behind) element.inert = false;
   };
   bootScreen.addEventListener('animationend', (event) => {
     if (event.target === bootScreen) finish();
   });
   bootScreen.addEventListener('click', finish);
   document.addEventListener('keydown', finish, { once: true });
+  // アニメーションが止められた場合（動きを減らす設定への切り替えなど）の保険
+  setTimeout(finish, 2600);
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener(
+    'change',
+    finish,
+  );
 }
 
 // ボタン・ナビのデコード風ホバー
@@ -287,12 +309,17 @@ if (motion && matchMedia('(hover: hover)').matches) {
     element.addEventListener('mouseenter', () => scramble(element));
 }
 
-// 背景のパケット：動きを減らす設定なら止める
-if (!motion)
+// 背景のパケット：動きを減らす設定なら止める（途中で切り替えても追従）
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const syncPackets = () => {
   for (const svg of document.querySelectorAll<SVGSVGElement>(
     '[data-network-bg]',
   ))
-    svg.pauseAnimations();
+    if (reducedMotion.matches || !motion) svg.pauseAnimations();
+    else svg.unpauseAnimations();
+};
+syncPackets();
+reducedMotion.addEventListener('change', syncPackets);
 
 // 隠しコマンド：↑↑↓↓←→←→BA でCRTモード
 const konami = [
@@ -309,6 +336,15 @@ const konami = [
 ];
 let konamiIndex = 0;
 document.addEventListener('keydown', (event) => {
+  // 入力欄・ダイアログ内や修飾キー・IME変換中は数えない
+  if (event.isComposing || event.ctrlKey || event.metaKey || event.altKey)
+    return;
+  if (
+    (event.target as HTMLElement | null)?.closest?.(
+      'input, textarea, select, [contenteditable], dialog[open]',
+    )
+  )
+    return;
   const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
   konamiIndex =
     key === konami[konamiIndex] ? konamiIndex + 1 : key === konami[0] ? 1 : 0;

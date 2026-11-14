@@ -7,7 +7,7 @@ category: tech
 tags: [web, event]
 ---
 
-自鯖缶に参加するにあたって名刺を作ることにしたので、名刺に載せるためのポートフォリオ兼ブログを作りました。
+自鯖缶に参加するにあたって名刺を作ることにしました。その名刺に載せるため、ポートフォリオ兼ブログを作りました。
 
 ## 構成
 
@@ -29,8 +29,14 @@ tags: [web, event]
 
 日本語のWebフォントはそのままだと数MBになります。そこで一度サイトをビルドし、生成されたHTMLで実際に使われている文字だけを抜き出してフォントをサブセット化し、もう一度ビルドしています。外部のフォントサービスに頼らず、自分のサイトだけで配信できます。
 
+`bun run build`の中身は、おおまかに次の流れです。
+
 ```sh
-bun run build
+astro build                          # 1回目（仮のフォントで生成）
+bun scripts/build-fonts.ts --built   # 生成HTMLの使用文字でサブセット化
+astro build                          # 2回目（サブセットしたフォントで生成）
+bun scripts/build-search.ts          # Pagefindの検索インデックス
+bun scripts/verify-output.ts         # 成果物の検証
 ```
 
 ### Workers Buildsでの公開
