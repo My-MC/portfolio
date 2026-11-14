@@ -5,7 +5,7 @@ Workers Builds（GitHub連携）で `main` を本番 `https://my-mc.dev/` に公
 | 種類         | URL                                                    | 作られ方                                                          |
 | ------------ | ------------------------------------------------------ | ----------------------------------------------------------------- |
 | 本番         | `https://my-mc.dev/`                                   | `main` への push → `wrangler deploy`（`routes` の Custom Domain） |
-| プレビュー   | `https://<branch>-portfolio.my-mc.workers.dev/`        | `main` 以外への push → `wrangler preview`                         |
+| プレビュー   | `https://<branch>-portfolio.my-mc.workers.dev/`        | `main` 以外への push → `bun run preview:deploy`                   |
 | 個別デプロイ | `https://<deployment-id>-portfolio.my-mc.workers.dev/` | 各プレビューの固定URL                                             |
 
 ## 1. 事前準備（初回のみ）
@@ -25,7 +25,7 @@ Workers & Pages → Create → Import a repository で `My-MC/portfolio` を選�
 | Build command                        | `bun ci && bun run build:cloudflare`                   |
 | Deploy command                       | `bunx wrangler deploy`                                 |
 | Non-production branch builds         | 有効                                                   |
-| Non-production branch deploy command | `bunx wrangler preview`                                |
+| Non-production branch deploy command | `bun run preview:deploy`                               |
 
 ### ビルド環境変数
 
