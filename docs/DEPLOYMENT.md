@@ -37,7 +37,7 @@ Workers & Pages → Create → Import a repository で `My-MC/portfolio` を選�
 | `ASTRO_TELEMETRY_DISABLED` | `1`                           |
 | `SITE_RELEASE`             | `1`（mainで公開検証を有効化） |
 
-公開URLは `src/data/site.ts` の既定値 `https://my-mc.dev` を使うので、`SITE_URL` の設定は不要です（別のURLで公開するときだけ設定します）。canonical・OGP・RSS・サイトマップ・`/hi` はすべてこのURLになります。
+公開URLは `src/data/site.ts` の既定値 `https://my-mc.dev` に固定です。**ビルド変数に `SITE_URL` は設定しないでください**（本番ビルドでは無視し、警告を出します。本番ドメインを変えるときは `site.ts` を変更します）。canonical・OGP・RSS・サイトマップ・`/hi` はすべてこのURLになります。
 
 `main` 以外のブランチは自動的に `noindex` と robots 全拒否でビルドされ、workers.dev のプレビューには Cloudflare も `X-Robots-Tag: noindex` を付けます。
 

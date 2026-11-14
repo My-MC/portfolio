@@ -87,6 +87,10 @@ assert(
 );
 if (release || branch === 'main') {
   assert(
+    !new URL(site.url).hostname.endsWith('.workers.dev'),
+    `本番のURLが workers.dev になっています: ${site.url}`,
+  );
+  assert(
     /^https:\/\//.test(site.url) && !site.url.includes('localhost'),
     '本番ビルドにはSITE_URL（https://...）の設定が必要です',
   );
