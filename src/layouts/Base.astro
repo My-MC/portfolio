@@ -263,6 +263,26 @@ const isCurrent = (href: string) => Astro.url.pathname.startsWith(href);
             {item.label}
           </a>
         ))}
+        <fieldset class="mobile-theme" aria-label="表示テーマ">
+          <legend class="mobile-theme-label mono">theme</legend>
+          {(
+            [
+              ['light', 'sun', 'ライト'],
+              ['dark', 'moon', 'ダーク'],
+              ['system', 'monitor', 'OS設定'],
+            ] as const
+          ).map(([value, icon, label]) => (
+            <button
+              type="button"
+              class="theme-chip"
+              data-theme-value={value}
+              aria-pressed="false"
+            >
+              <Icon name={icon} size={16} />
+              {label}
+            </button>
+          ))}
+        </fieldset>
       </nav>
     </header>
     <main id="main">
@@ -336,7 +356,8 @@ const isCurrent = (href: string) => Astro.url.pathname.startsWith(href);
         display: flex;
         flex-wrap: wrap;
       }
-      .filter-controls {
+      .filter-controls,
+      .mobile-theme {
         display: none;
       }
       </style>

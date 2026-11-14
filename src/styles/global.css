@@ -1805,6 +1805,59 @@ dialog::backdrop {
   }
 }
 
+/* モバイルメニュー内のテーマ切替 */
+.mobile-theme {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 12px 12px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.mobile-theme-label {
+  float: left;
+  margin-right: 4px;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.theme-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.theme-chip[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+/* 長い入力でターミナル全体が横に伸びないようにする */
+.terminal-field {
+  overflow: hidden;
+}
+/* 行末でもブロックカーソルが収まるよう右に余白を取る */
+.terminal-input {
+  padding-right: 1.2em;
+}
+.terminal-body {
+  overflow-x: hidden;
+}
+.project-card-top {
+  flex-wrap: wrap;
+}
+.status {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
   .hero-inner {
@@ -1842,7 +1895,8 @@ dialog::backdrop {
   }
   .terminal-input,
   .terminal-mirror,
-  .block-cursor {
+  .block-cursor,
+  .search-field input {
     font-size: 16px;
   }
   .network-bg {
