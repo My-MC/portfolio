@@ -22,7 +22,7 @@ bun run dev
 | `bun run lint` / `bun run format` | Biome（MDXはPrettier + markdownlint）                                            |
 | `bun test`                        | 単体テスト                                                                       |
 | `bun run assets:build`            | favicon・OGP画像を再生成（`public/` にコミット）                                 |
-| `bun run qr`                      | 名刺用QRコード（`https://my-mc.dev/`）を `artifacts/qr.svg`・`qr.png` に生成       |
+| `bun run qr`                      | 名刺用QRコード（`https://my-mc.dev/`）を `artifacts/qr.svg`・`qr.png` に生成     |
 
 ## 書き方
 
