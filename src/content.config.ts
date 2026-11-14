@@ -50,6 +50,7 @@ const projects = defineCollection({
         technologies: z.array(nonempty).default([]),
         tags: tagList,
         role: nonempty.optional(),
+        award: nonempty.optional(),
         cover: image().optional(),
         coverAlt: nonempty.optional(),
         repositoryUrl: httpUrl.optional(),

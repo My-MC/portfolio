@@ -1,6 +1,6 @@
 # My-MC Portfolio
 
-My（[@My-MC](https://github.com/My-MC)）のポートフォリオ兼ブログです。[ALG公式サイト](https://github.com/ALG-SIT/website)と同じ構成（Astro + Tailwind CSS v4 + MDX + Pagefind + Biome）で、JavaScriptランタイムにBunを使い、Cloudflare Workers（Static Assets）で静的配信します。
+My（[@My-MC](https://github.com/My-MC)）のポートフォリオ兼ブログです。Astro + Tailwind CSS v4 + MDX + Pagefind + Biome で作り、JavaScriptランタイムにBunを使い、Cloudflare Workers（Static Assets）で静的配信します。
 
 ## 開発
 
@@ -22,7 +22,7 @@ bun run dev
 | `bun run lint` / `bun run format` | Biome（MDXはPrettier + markdownlint）                                            |
 | `bun test`                        | 単体テスト                                                                       |
 | `bun run assets:build`            | favicon・OGP画像を再生成（`public/` にコミット）                                 |
-| `SITE_URL=https://... bun run qr` | 名刺用QRコードを `artifacts/qr.svg`・`qr.png` に生成                             |
+| `bun run qr`                      | 名刺用QRコード（`https://my-mc.dev/`）を `artifacts/qr.svg`・`qr.png` に生成     |
 
 ## 書き方
 
@@ -36,3 +36,11 @@ bun run dev
 ## 公開
 
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) を参照してください。
+
+## ライセンス
+
+ソースコードは [MIT License](LICENSE) です。ただし、次のものはMITの対象外です。
+
+- `src/content/` の記事・プロジェクト紹介の文章、`src/data/site.ts` のプロフィール情報、`public/og.png` などの個人に関するコンテンツ：著作権は作者（My-MC）に帰属します。
+- `src/assets/lumin/` の画面写真・図：ALG（[ALG-SIT/Lumin](https://github.com/ALG-SIT/Lumin)）の素材です。
+- フォント（Noto Sans JP・Cascadia Mono）：SIL Open Font License 1.1。ライセンス文は `public/fonts/` と `src/assets/lumin/OFL.txt` にあります。

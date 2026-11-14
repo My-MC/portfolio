@@ -7,6 +7,10 @@
     "html_handling": "force-trailing-slash",
     "not_found_handling": "404-page"
   },
+  // 本番は独自ドメイン（Custom Domain）。DNSレコードと証明書はCloudflareが作成する。
+  "routes": [{ "pattern": "my-mc.dev", "custom_domain": true }],
+  // ブランチごとのプレビュー: <branch>-portfolio.my-mc.workers.dev
+  "workers_dev": true,
   "preview_urls": true,
   "previews": {}
 }

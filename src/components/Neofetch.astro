@@ -1,0 +1,142 @@
+---
+import { activities, awards, profile, social } from '../data/site';
+import { publishedBlog, publishedProjects } from '../lib/content';
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+// 1行目はアンテナの左右に電波（括弧）を置く。桁数は他の行と同じ15桁。
+const wave = (chars: string, side: 'l' | 'r') =>
+  [...chars]
+    .map(
+      (char, index) =>
+        `<span class="wave wave-${side}${side === 'l' ? 3 - index : index + 1}">${char}</span>`,
+    )
+    .join('');
+const art = [
+  `  ${wave('(((', 'l')}\\ | /${wave(')))', 'r')}  `,
+  '      \\|/      ',
+  '  .----+----.  ',
+  '  | o ===== |  ',
+  '  |---------|  ',
+  '  | o ===== |  ',
+  '  |---------|  ',
+  '  | o ===== |  ',
+  "  '---------'  ",
+];
+const artHtml = art
+  .map((line, index) => (index === 0 ? line : escapeHtml(line)))
+  .join('\n');
+const x = social.find((item) => item.label === 'X');
+const rows: [string, string][] = [
+  ['School', profile.school.university],
+  ['Faculty', profile.school.faculty],
+  ['Course', profile.school.course],
+  [
+    'Clubs',
+    activities
+      .map((activity) => activity.name.replace('文化会 ', ''))
+      .join(' / '),
+  ],
+  ...awards.map(
+    (award, index) =>
+      [index === 0 ? 'Awards' : '', award.short] as [string, string],
+  ),
+  ['Homelab', 'Proxmox VE / Incus / VyOS'],
+  ['Network', 'BGP / IPv6'],
+  ['Langs', 'Rust / Python / TypeScript'],
+  ...(x ? [['X', x.id] as [string, string]] : []),
+];
+const host = `${profile.displayName.toLowerCase()}@${profile.handle.toLowerCase()}`;
+// 触れるターミナル用のデータ（HTMLに埋め込むJSON）
+const terminalData = {
+  host,
+  profile: {
+    name: profile.displayName,
+    handle: profile.handle,
+    school: `${profile.school.university} ${profile.school.faculty} ${profile.school.course}`,
+    interests: profile.interests,
+  },
+  clubs: activities.map((activity) => ({
+    name: activity.name,
+    url: activity.url ?? '',
+  })),
+  awards: awards.map((award) => award.short),
+  social: social.map((item) => ({ label: item.label, url: item.url })),
+  projects: (await publishedProjects()).map((project) => ({
+    id: project.id,
+    title: project.data.title,
+  })),
+  posts: (await publishedBlog()).slice(0, 5).map((post) => ({
+    id: post.id,
+    title: post.data.title,
+  })),
+};
+---
+
+<section class="terminal" aria-label="自己紹介（neofetch風）" data-terminal>
+  <div class="terminal-bar" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <p>{host}: ~</p>
+  </div>
+  <div class="terminal-body" data-terminal-body>
+    <p class="terminal-command">
+      <span class="prompt-sign" aria-hidden="true">$</span>{' '}
+      <span class="typed">neofetch</span>
+    </p>
+    <div class="neofetch">
+      <pre class="neofetch-art" aria-hidden="true" set:html={artHtml} />
+      <dl class="neofetch-info">
+        <div class="neofetch-host" style="--i: 0">
+          <dt class="sr-only">ユーザー</dt>
+          <dd>{host}</dd>
+        </div>
+        {rows.map(([key, value], index) => (
+          <div style={`--i: ${index + 1}`}>
+            <dt class:list={{ blank: !key }}>{key}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+        <div
+          class="neofetch-colors"
+          aria-hidden="true"
+          style={`--i: ${rows.length + 1}`}
+        >
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((n) => <span class={`c${n}`}></span>)}
+        </div>
+      </dl>
+    </div>
+    <div class="terminal-log" data-terminal-log aria-live="polite"></div>
+    <form class="terminal-prompt" data-terminal-form>
+      <span class="prompt-sign" aria-hidden="true">$</span>
+      <label for="terminal-input" class="sr-only">
+        ターミナルにコマンドを入力（helpで一覧）
+      </label>
+      <span class="terminal-field" data-terminal-field>
+        <input
+          id="terminal-input"
+          class="terminal-input"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="send"
+          placeholder="help と入力してみてください"
+        >
+        <span
+          class="terminal-mirror"
+          aria-hidden="true"
+          data-terminal-mirror
+        ></span>
+        <span class="block-cursor" aria-hidden="true" data-block-cursor></span>
+      </span>
+    </form>
+  </div>
+  <script
+    type="application/json"
+    id="terminal-data"
+    set:html={JSON.stringify(terminalData).replace(/</g, '\\u003c')}
+  />
+</section>
+<script>
+import '../lib/terminal';
+</script>
