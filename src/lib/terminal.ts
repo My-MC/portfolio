@@ -36,7 +36,7 @@ if (root && body && log && form && input && raw) {
     for (const line of lines) {
       const p = document.createElement('p');
       p.className = 'terminal-output';
-      if (typeof line === 'string') p.textContent = line;
+      if (typeof line === 'string') p.textContent = line || '\u00a0';
       else if ('href' in line) {
         const a = document.createElement('a');
         a.href = line.href;
@@ -82,19 +82,43 @@ if (root && body && log && form && input && raw) {
   };
 
   const commands: Record<string, (args: string[]) => Line[] | undefined> = {
-    help: () => [
-      '使えるコマンド:',
-      '  whoami        自己紹介',
-      '  ls [dir]      projects / blog / clubs を一覧',
-      '  cd <dir>      ページを移動（about, projects, blog, links）',
-      '  open <name>   プロジェクトを開く（例: open lumin）',
-      '  awards        受賞・実績',
-      '  contact       連絡先',
-      '  theme <mode>  light / dark / system',
-      '  crt           ブラウン管モードの切り替え',
-      '  clear         画面を消す',
-      '  ほかにも隠しコマンドがあるかも…？',
-    ],
+    help: (args) => {
+      const basic = [
+        '使えるコマンド:',
+        '  whoami        自己紹介',
+        '  ls [dir]      projects / blog / clubs を一覧',
+        '  cd <dir>      ページを移動（about, projects, blog, links）',
+        '  open <name>   プロジェクトを開く（例: open lumin）',
+        '  awards        受賞・実績',
+        '  contact       連絡先',
+        '  theme <mode>  light / dark / system',
+        '  crt           ブラウン管モードの切り替え',
+        '  clear         画面を消す（Ctrl+L）',
+      ];
+      if (!['all', '-a', '--all'].includes(args[0] ?? ''))
+        return [
+          ...basic,
+          { tone: 'dir', text: 'ほかにも隠しコマンドがあります → help all' },
+        ];
+      return [
+        ...basic,
+        '',
+        { tone: 'dir', text: '隠しコマンド:' },
+        '  neofetch      もう一度表示（上にあります）',
+        '  cat <file>    about / interests',
+        '  history       入力履歴（↑↓でも呼び出せます）',
+        '  echo <text>   そのまま返す',
+        '  date / uname / uptime',
+        '  ping [host]   生存確認',
+        '  curl          ターミナル用の名刺',
+        '  hello         あいさつ',
+        '  sudo / rm -rf / exit / vim / emacs …試してみてください',
+        '',
+        { tone: 'dir', text: 'キーボード:' },
+        '  ↑↓ 履歴 / Tab 補完 / Ctrl+L 消去',
+        '  ↑↑↓↓←→←→BA（入力欄の外で）CRTモード',
+      ];
+    },
     whoami: () => [
       `${data.profile.name} (@${data.profile.handle})`,
       data.profile.school,
