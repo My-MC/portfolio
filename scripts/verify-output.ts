@@ -3,6 +3,7 @@ import { join, relative, resolve } from 'node:path';
 import { load } from 'cheerio';
 import { site } from '../src/data/site';
 import { isPreview } from '../src/lib/seo';
+import { ogHash, ogHashFile } from './og-image';
 
 /** ビルド成果物の最低限の品質と公開設定を検査する。 */
 const root = resolve('dist');
@@ -95,6 +96,14 @@ if (release || branch === 'main') {
     '本番ビルドにはSITE_URL（https://...）の設定が必要です',
   );
 }
+// OGP画像がプロフィール変更後に作り直されているか
+const recordedOgHash = (
+  await readFile(ogHashFile, 'utf8').catch(() => '')
+).trim();
+assert(
+  recordedOgHash === ogHash(),
+  'OGP画像（public/og.png）が古いです。bun run assets:build で作り直してコミットしてください',
+);
 if (failures.length) {
   console.error(`成果物の検証に失敗しました（${failures.length}件）`);
   for (const failure of failures) console.error(`- ${failure}`);

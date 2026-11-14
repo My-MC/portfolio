@@ -2,13 +2,16 @@
  * サイト全体の設定。公開URLはビルド環境変数 SITE_URL で上書きできる
  * （Workers Buildsのビルド変数に設定する。末尾スラッシュなし）。
  */
+/** 本番の公開URL（OGP画像・既定のサイトURL） */
+export const productionUrl = 'https://my-mc.dev';
+
 const envUrl =
   typeof process !== 'undefined' ? process.env.SITE_URL?.trim() : undefined;
 
 export const site = {
   /** サイト名（ヘッダー・タイトル末尾） */
   name: 'My-MC',
-  url: (envUrl || 'https://my-mc.dev').replace(/\/+$/, ''),
+  url: (envUrl || productionUrl).replace(/\/+$/, ''),
   description:
     'My（My-MC）のポートフォリオ兼ブログ。ネットワーク、Linuxサーバー運用、自宅ラボ、ソフトウェア開発について書いています。',
   /** true の間は本番でも検索エンジンに載せない */
