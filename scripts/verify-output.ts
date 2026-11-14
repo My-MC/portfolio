@@ -41,6 +41,8 @@ for (const path of [
   'favicon-96x96.png',
   'apple-touch-icon.png',
   '_headers',
+  '_redirects',
+  'hi.txt',
 ])
   assert(rel.has(path), `必要な成果物がありません: ${path}`);
 

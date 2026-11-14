@@ -1,0 +1,66 @@
+---
+import { activities, profile, social } from '../data/site';
+
+const art = [
+  '     \\ | /     ',
+  '      \\|/      ',
+  '  .----+----.  ',
+  '  | o ===== |  ',
+  '  |---------|  ',
+  '  | o ===== |  ',
+  '  |---------|  ',
+  '  | o ===== |  ',
+  "  '---------'  ",
+];
+const x = social.find((item) => item.label === 'X');
+const rows: [string, string][] = [
+  ['School', profile.school.university],
+  ['Faculty', profile.school.faculty],
+  ['Course', profile.school.course],
+  [
+    'Clubs',
+    activities
+      .map((activity) => activity.name.replace('文化会 ', ''))
+      .join(' / '),
+  ],
+  ['Homelab', 'Proxmox VE / Incus / VyOS'],
+  ['Network', 'SDCC (BGP, IPv6)'],
+  ['Langs', 'Rust / Python / TypeScript'],
+  ...(x ? [['X', x.id] as [string, string]] : []),
+];
+const host = `${profile.displayName.toLowerCase()}@${profile.handle.toLowerCase()}`;
+---
+
+<section class="terminal" aria-label="自己紹介（neofetch風）">
+  <div class="terminal-bar" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <p>{host}: ~</p>
+  </div>
+  <div class="terminal-body">
+    <p class="terminal-command">
+      <span class="prompt-sign" aria-hidden="true">$</span>{' '}
+      neofetch
+    </p>
+    <div class="neofetch">
+      <pre class="neofetch-art" aria-hidden="true">{art.join('\n')}</pre>
+      <dl class="neofetch-info">
+        <div class="neofetch-host">
+          <dt class="sr-only">ユーザー</dt>
+          <dd>{host}</dd>
+        </div>
+        {rows.map(([key, value]) => (
+          <div>
+            <dt>{key}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+        <div class="neofetch-colors" aria-hidden="true">
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((n) => <span class={`c${n}`}></span>)}
+        </div>
+      </dl>
+    </div>
+    <p class="terminal-command" aria-hidden="true">
+      <span class="prompt-sign">$</span> <span class="cursor"></span>
+    </p>
+  </div>
+</section>
