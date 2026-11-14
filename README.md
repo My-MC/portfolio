@@ -36,3 +36,7 @@ bun run dev
 ## 公開
 
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) を参照してください。
+
+## ライセンス
+
+文章・画像などのコンテンツの著作権は作者（My / My-MC）に帰属します。Luminの画面写真・図はALG（ALG-SIT/Lumin）の素材です。フォントは SIL Open Font License 1.1 で、ライセンス文は `public/fonts/` と `src/assets/lumin/OFL.txt` にあります。

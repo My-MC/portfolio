@@ -13,8 +13,8 @@ export const site = {
     'My（My-MC）のポートフォリオ兼ブログ。ネットワーク、Linuxサーバー運用、自宅ラボ、ソフトウェア開発について書いています。',
   /** true の間は本番でも検索エンジンに載せない */
   preview: false,
-  /** リポジトリを公開したらURLを入れるとLinksに表示される */
-  repository: '',
+  /** このサイトのソースコード（Links・Aboutに表示） */
+  repository: 'https://github.com/My-MC/portfolio',
   /** 名刺から来た人向けのあいさつ（不要になったら null） */
   welcome:
     '自鯖缶で名刺を受け取ってくださった方、ありがとうございます！気軽に声をかけてください。' as
