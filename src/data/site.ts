@@ -8,7 +8,7 @@ const envUrl =
 export const site = {
   /** サイト名（ヘッダー・タイトル末尾） */
   name: 'My-MC',
-  url: (envUrl || 'http://localhost:4321').replace(/\/+$/, ''),
+  url: (envUrl || 'https://my-mc.dev').replace(/\/+$/, ''),
   description:
     'My（My-MC）のポートフォリオ兼ブログ。ネットワーク、Linuxサーバー運用、自宅ラボ、ソフトウェア開発について書いています。',
   /** true の間は本番でも検索エンジンに載せない */
