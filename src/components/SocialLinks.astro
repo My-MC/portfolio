@@ -1,0 +1,45 @@
+---
+import { site, social } from '../data/site';
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  variant?: 'list' | 'inline';
+}
+const { variant = 'list' } = Astro.props;
+const iconFor = (label: string): IconName => {
+  const key = label.toLowerCase();
+  if (key.includes('github')) return 'github';
+  if (key.includes('mail') || key.includes('メール')) return 'mail';
+  return 'link';
+};
+const links = [
+  ...social.map((item) => ({ ...item, icon: iconFor(item.label) })),
+  {
+    label: 'RSS',
+    id: 'ブログの更新情報',
+    url: '/rss.xml',
+    icon: 'rss' as const,
+  },
+];
+---
+
+<ul class:list={['social-links', `social-${variant}`]}>
+  {links.map((link) => (
+    <li>
+      <a
+        href={link.url}
+        rel={link.url.startsWith('http') ? 'me noopener' : undefined}
+      >
+        <Icon name={link.icon} size={variant === 'inline' ? 18 : 22} />
+        <span class="social-label">{link.label}</span>
+        {variant === 'list' && <span class="social-id">{link.id}</span>}
+      </a>
+    </li>
+  ))}
+</ul>
+{variant === 'list' && site.repository && (
+  <p class="source-note">
+    このサイトのソースコード：
+    <a href={site.repository}>{site.repository.replace('https://', '')}</a>
+  </p>
+)}

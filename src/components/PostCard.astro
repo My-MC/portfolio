@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { categories, tags } from '../data/tags';
+import { formatDate, readingMinutes } from '../lib/publishing';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+---
+
+<article class="post-row" data-category={post.data.category}>
+  <time class="post-date" datetime={post.data.publishedAt.toISOString()}>
+    {formatDate(post.data.publishedAt)}
+  </time>
+  <div class="post-main">
+    <h3>
+      <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+    </h3>
+    <p>{post.data.description}</p>
+    <div class="post-meta">
+      <span class="category-label">{categories[post.data.category]}</span>
+      <span>{readingMinutes(post.body)}分で読めます</span>
+      {post.data.draft && <span class="draft-badge">下書き</span>}
+      <span class="tag-list">
+        {post.data.tags.map((id) => (
+          <a href={`/tags/${id}/`}>#{tags[id as keyof typeof tags]}</a>
+        ))}
+      </span>
+    </div>
+  </div>
+</article>

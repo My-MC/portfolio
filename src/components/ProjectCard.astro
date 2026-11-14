@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { statuses } from '../data/tags';
+import ContentImage from './ContentImage.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { data } = project;
+---
+
+<article class="project-card">
+  {data.cover && (
+    <ContentImage
+      class="project-cover"
+      src={data.cover}
+      alt=""
+      kind="project-card"
+    />
+  )}
+  <div class="project-card-top">
+    <span class:list={['status', `status-${data.status}`]}>
+      {statuses[data.status]}
+    </span>
+    {data.role && <span class="project-role">{data.role}</span>}
+  </div>
+  <h3>
+    <a href={`/projects/${project.id}/`} class="stretched">{data.title}</a>
+  </h3>
+  <p>{data.description}</p>
+  <ul class="tech-list" aria-label="使用技術">
+    {data.technologies.slice(0, 5).map((tech) => <li>{tech}</li>)}
+  </ul>
+  <span class="card-arrow" aria-hidden="true">
+    <Icon name="arrow" size={18} />
+  </span>
+</article>

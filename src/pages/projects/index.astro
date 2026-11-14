@@ -1,0 +1,24 @@
+---
+import PageHeading from '../../components/PageHeading.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Base from '../../layouts/Base.astro';
+import { publishedProjects } from '../../lib/content';
+
+const projects = await publishedProjects();
+---
+
+<Base
+  title="Projects"
+  description="これまでに作ったソフトウェアと、運用しているインフラの紹介。"
+>
+  <div class="container page-content">
+    <PageHeading
+      command="ls ~/projects"
+      title="Projects"
+      description="作ったもの、作っているもの、運用しているもの。"
+    />
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</Base>

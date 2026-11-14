@@ -1,0 +1,36 @@
+---
+import PageHeading from '../../components/PageHeading.astro';
+import PostCard from '../../components/PostCard.astro';
+import { tags } from '../../data/tags';
+import Base from '../../layouts/Base.astro';
+import { publishedBlog } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await publishedBlog();
+  return Object.entries(tags)
+    .filter(([id]) => posts.some((post) => post.data.tags.includes(id)))
+    .map(([id, label]) => ({
+      params: { slug: id },
+      props: {
+        id,
+        label,
+        posts: posts.filter((post) => post.data.tags.includes(id)),
+      },
+    }));
+}
+const { id, label, posts } = Astro.props;
+---
+
+<Base title={`#${label}`} description={`「${label}」タグの記事一覧。`}>
+  <div class="container page-content narrow">
+    <PageHeading
+      command={`grep -r "#${id}" ~/blog`}
+      title={`#${label}`}
+      description={`${posts.length}件の記事`}
+    />
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+    <a href="/blog/" class="back-link">← すべての記事へ</a>
+  </div>
+</Base>

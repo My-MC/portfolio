@@ -1,0 +1,20 @@
+---
+import PageHeading from '../components/PageHeading.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { profile } from '../data/site';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Links"
+  description={`${profile.displayName}（${profile.handle}）の連絡先・SNS。`}
+>
+  <div class="container page-content narrow">
+    <PageHeading
+      command="ls ~/links"
+      title="Links"
+      description="連絡先とSNSです。お気軽にどうぞ。"
+    />
+    <SocialLinks />
+  </div>
+</Base>

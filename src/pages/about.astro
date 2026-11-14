@@ -1,0 +1,79 @@
+---
+import PageHeading from '../components/PageHeading.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { activities, profile, skills } from '../data/site';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="About"
+  description={`${profile.displayName}（${profile.handle}）の自己紹介。所属、活動、使っている技術。`}
+  ogType="profile"
+>
+  <div class="container page-content narrow">
+    <PageHeading
+      command="cat about.md"
+      title="About"
+      description={profile.tagline}
+    />
+    <section class="about-intro" aria-label="プロフィール">
+      <div class="avatar" aria-hidden="true">
+        <span class="mono">{profile.displayName.slice(0, 2)}</span>
+      </div>
+      <div>
+        <h2>
+          {profile.displayName}
+          <span class="mono muted">@{profile.handle}</span>
+        </h2>
+        <p>{profile.bio}</p>
+      </div>
+    </section>
+    <section class="section-sm" aria-labelledby="activities-title">
+      <h2 id="activities-title" class="sub-heading">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        所属・活動
+      </h2>
+      <ul class="activity-list">
+        {activities.map((activity) => (
+          <li>
+            <h3>
+              {activity.url ? (
+                <a href={activity.url}>{activity.title} ↗</a>
+              ) : (
+                activity.title
+              )}
+            </h3>
+            <p>{activity.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+    <section class="section-sm" aria-labelledby="skills-title">
+      <h2 id="skills-title" class="sub-heading">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        使っている技術
+      </h2>
+      <dl class="skill-table">
+        {skills.map((group) => (
+          <div>
+            <dt class="mono">{group.group}</dt>
+            <dd>
+              <ul class="tech-list">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+    <section class="section-sm" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="sub-heading">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        連絡先
+      </h2>
+      <SocialLinks />
+    </section>
+  </div>
+</Base>

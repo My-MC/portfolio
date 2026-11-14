@@ -1,0 +1,44 @@
+---
+import Icon from '../../components/Icon.astro';
+import PageHeading from '../../components/PageHeading.astro';
+import PostCard from '../../components/PostCard.astro';
+import { categories } from '../../data/tags';
+import Base from '../../layouts/Base.astro';
+import { publishedBlog } from '../../lib/content';
+
+const posts = await publishedBlog();
+---
+
+<Base
+  title="Blog"
+  description="ネットワーク、自宅ラボ、ソフトウェア開発について試したこと・学んだことの記録。"
+>
+  <div class="container page-content narrow">
+    <PageHeading
+      command="ls ~/blog"
+      title="Blog"
+      description="試したこと、学んだこと、行ったイベントの記録。"
+    />
+    <div class="listing-toolbar">
+      <fieldset class="filter-controls" aria-label="カテゴリーで絞り込む">
+        <button type="button" data-filter="all" aria-pressed="true">
+          すべて
+        </button>
+        {Object.entries(categories).map(([id, label]) => (
+          <button type="button" data-filter={id} aria-pressed="false">
+            {label}
+          </button>
+        ))}
+      </fieldset>
+      <button type="button" class="button button-secondary" data-search-open>
+        <Icon name="search" size={16} />
+        検索
+      </button>
+    </div>
+    <p id="filter-count" class="result-count" role="status">{posts.length}件</p>
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+      {!posts.length && <p class="empty-state">記事を準備しています。</p>}
+    </div>
+  </div>
+</Base>

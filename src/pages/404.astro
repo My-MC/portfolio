@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="ページが見つかりません" noindex>
+  <div class="container page-content narrow not-found">
+    <p class="prompt mono">
+      <span class="prompt-sign">$</span>
+      curl -I {'{'}this page{'}'}
+    </p>
+    <p class="mono status-line">HTTP/2 404</p>
+    <h1>ページが見つかりません</h1>
+    <p>URLが変わったか、削除された可能性があります。</p>
+    <a href="/" class="button button-primary">ホームへ戻る</a>
+  </div>
+</Base>

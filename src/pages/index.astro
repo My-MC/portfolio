@@ -1,0 +1,138 @@
+---
+import Icon from '../components/Icon.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import Terminal from '../components/Terminal.astro';
+import { profile, site } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { publishedBlog, publishedProjects } from '../lib/content';
+
+const posts = (await publishedBlog()).slice(0, 4);
+const projects = (await publishedProjects())
+  .filter((project) => project.data.featured)
+  .slice(0, 4);
+const focus = [
+  {
+    icon: 'network' as const,
+    title: 'Network',
+    text: 'SDCCでAS番号の払い出しを受け、BGP・IPv6・トンネルを実際に動かしながら学んでいます。',
+  },
+  {
+    icon: 'server' as const,
+    title: 'Self-hosting',
+    text: 'Proxmox VEとIncusで自宅ラボを運用。VyOSの検証網から監視・通知までを設定ファイルで管理しています。',
+  },
+  {
+    icon: 'code' as const,
+    title: 'Software',
+    text: 'Rust・Python・TypeScriptで、フォントのビルドシステムやオーディオメーターなど趣味の道具を作っています。',
+  },
+];
+---
+
+<Base>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow mono">{profile.tagline}</p>
+        <h1>
+          <span class="hero-name">{profile.displayName}</span>
+          <span class="hero-handle mono">@{profile.handle}</span>
+        </h1>
+        <p class="hero-lead">
+          ネットワークとサーバーと、
+          <br>
+          ものづくり。
+        </p>
+        <p class="hero-bio">{profile.bio}</p>
+        <div class="hero-buttons">
+          <a href="/about/" class="button button-primary">
+            自己紹介 <Icon name="arrow" size={18} />
+          </a>
+          <a href="/projects/" class="button button-secondary">
+            作ったもの <Icon name="arrow" size={18} />
+          </a>
+        </div>
+      </div>
+      <Terminal
+        lines={[
+          {
+            command: 'whoami',
+            output: [`${profile.displayName} (@${profile.handle})`],
+          },
+          {
+            command: 'cat interests.txt',
+            output: [profile.interests.join(' / ')],
+          },
+          { command: 'uptime', output: ['learning, building, self-hosting'] },
+        ]}
+      />
+    </div>
+  </section>
+  {site.welcome && (
+    <section class="container welcome" aria-label="名刺から来た方へ">
+      <p>
+        <span class="welcome-icon" aria-hidden="true">
+          📇
+        </span>
+        {site.welcome}
+      </p>
+    </section>
+  )}
+  <section class="section container" aria-labelledby="focus-title">
+    <div class="section-header">
+      <h2 id="focus-title">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        いま取り組んでいること
+      </h2>
+    </div>
+    <div class="focus-grid">
+      {focus.map((item) => (
+        <article class="focus-card">
+          <Icon name={item.icon} size={26} />
+          <h3 class="mono">{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="section container" aria-labelledby="projects-title">
+    <div class="section-header">
+      <h2 id="projects-title">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        作ったもの
+      </h2>
+      <a class="text-link" href="/projects/">
+        すべて見る <Icon name="arrow" size={16} />
+      </a>
+    </div>
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+  <section class="section container" aria-labelledby="blog-title">
+    <div class="section-header">
+      <h2 id="blog-title">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        最近の記事
+      </h2>
+      <a class="text-link" href="/blog/">
+        すべて見る <Icon name="arrow" size={16} />
+      </a>
+    </div>
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+      {!posts.length && <p class="empty-state">記事を準備しています。</p>}
+    </div>
+  </section>
+  <section class="section container" aria-labelledby="links-title">
+    <div class="section-header">
+      <h2 id="links-title">
+        <span class="prompt-sign mono" aria-hidden="true">#</span>
+        つながる
+      </h2>
+    </div>
+    <SocialLinks variant="inline" />
+  </section>
+</Base>

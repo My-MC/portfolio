@@ -1,0 +1,129 @@
+---
+import { render } from 'astro:content';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentImage from '../../components/ContentImage.astro';
+import PostCard from '../../components/PostCard.astro';
+import { site } from '../../data/site';
+import { categories, tags } from '../../data/tags';
+import Base from '../../layouts/Base.astro';
+import { publishedBlog, relatedPosts } from '../../lib/content';
+import { formatDate, readingMinutes } from '../../lib/publishing';
+import { personId } from '../../lib/seo';
+import { socialImage } from '../../lib/social-image';
+
+export async function getStaticPaths() {
+  return (await publishedBlog()).map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const related = relatedPosts(post, await publishedBlog());
+const toc = headings.filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
+const image = await socialImage(post.data.cover, post.data.coverAlt);
+const breadcrumbs = [
+  { name: 'ホーム', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+  { name: post.data.title, path: `/blog/${post.id}/` },
+];
+const structured = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.publishedAt.toISOString(),
+  ...(post.data.updatedAt
+    ? { dateModified: post.data.updatedAt.toISOString() }
+    : {}),
+  author: { '@id': personId },
+  mainEntityOfPage: new URL(`/blog/${post.id}/`, site.url).href,
+  ...(post.data.cover ? { image: new URL(image.src, site.url).href } : {}),
+};
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  image={image}
+  structuredData={[structured]}
+  breadcrumbs={breadcrumbs}
+  ogType="article"
+  publishedAt={post.data.publishedAt}
+  updatedAt={post.data.updatedAt}
+>
+  <div class="container page-content">
+    <Breadcrumbs items={breadcrumbs} />
+    <article data-pagefind-body>
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="category-label">{categories[post.data.category]}</span>
+          <time datetime={post.data.publishedAt.toISOString()}>
+            {formatDate(post.data.publishedAt)}
+          </time>
+          {post.data.updatedAt && (
+            <time datetime={post.data.updatedAt.toISOString()}>
+              （更新 {formatDate(post.data.updatedAt)}）
+            </time>
+          )}
+          <span>{readingMinutes(post.body)}分で読めます</span>
+          {post.data.draft && (
+            <span class="draft-badge">下書き・ローカル限定</span>
+          )}
+        </div>
+        <h1 data-pagefind-meta="title">{post.data.title}</h1>
+        <p class="article-description">{post.data.description}</p>
+        <div class="tag-list">
+          {post.data.tags.map((id) => (
+            <a href={`/tags/${id}/`}>#{tags[id as keyof typeof tags]}</a>
+          ))}
+        </div>
+        {post.data.cover && (
+          <ContentImage
+            class="article-cover"
+            src={post.data.cover}
+            alt={post.data.coverAlt ?? post.data.title}
+            kind="cover"
+          />
+        )}
+      </header>
+      <div class="article-layout">
+        <div class="prose">
+          <Content />
+        </div>
+        {toc.length > 0 && (
+          <aside class="toc" data-pagefind-ignore>
+            <nav aria-label="この記事の目次">
+              <p class="mono">contents</p>
+              <ol>
+                {toc.map((heading) => (
+                  <li class:list={{ 'toc-sub': heading.depth === 3 }}>
+                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </aside>
+        )}
+      </div>
+    </article>
+    {related.length > 0 && (
+      <section class="related-section" aria-labelledby="related-title">
+        <h2 id="related-title" class="sub-heading">
+          <span class="prompt-sign mono" aria-hidden="true">
+            #
+          </span>
+          こちらもどうぞ
+        </h2>
+        <div class="post-list">
+          {related.map((entry) => (
+            <PostCard post={entry} />
+          ))}
+        </div>
+      </section>
+    )}
+    <a class="back-link" href="/blog/">← 記事一覧に戻る</a>
+  </div>
+</Base>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  title?: string;
+  lines: { command: string; output: string[] }[];
+}
+const { title = 'my@lab: ~', lines } = Astro.props;
+---
+
+<section class="terminal" aria-label="自己紹介（ターミナル風）">
+  <div class="terminal-bar" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <p>{title}</p>
+  </div>
+  <div class="terminal-body">
+    {lines.map((line) => (
+      <>
+        <p class="terminal-command">
+          <span class="prompt-sign" aria-hidden="true">
+            $
+          </span>{' '}
+          {line.command}
+        </p>
+        {line.output.map((output) => (
+          <p class="terminal-output">{output}</p>
+        ))}
+      </>
+    ))}
+    <p class="terminal-command" aria-hidden="true">
+      <span class="prompt-sign">$</span> <span class="cursor"></span>
+    </p>
+  </div>
+</section>
