@@ -1439,6 +1439,364 @@ dialog::backdrop {
   color: var(--accent);
 }
 
+/* ---------- motion ---------- */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* 起動ログ（トップ初回のみ） */
+.boot {
+  display: none;
+}
+:root[data-boot] .boot {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  place-items: center;
+  background: #080b0c;
+  color: #d7e3e0;
+  font-family: var(--font-code);
+  font-size: clamp(0.78rem, 2.6vw, 0.95rem);
+  cursor: pointer;
+  animation: boot-out 0.35s ease-in 1.55s forwards;
+}
+.boot-log {
+  width: min(520px, calc(100% - 40px));
+}
+.boot-log p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: boot-line 0.01s linear calc(var(--n) * 0.18s + 0.1s) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-ok {
+  color: #28c840;
+}
+.boot-skip {
+  margin-top: 18px !important;
+  color: #7f9590;
+  font-size: 0.75em;
+}
+@keyframes boot-line {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes boot-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* neofetchのタイピング */
+:root {
+  --boot-delay: 0s;
+}
+:root[data-boot] {
+  --boot-delay: 1.7s;
+}
+:root[data-motion="on"] .typed {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: typing 0.55s steps(8, end) calc(var(--boot-delay) + 0.25s) forwards;
+}
+:root[data-motion="on"] .neofetch-art,
+:root[data-motion="on"] .neofetch-info > div,
+:root[data-motion="on"] .terminal-prompt {
+  opacity: 0;
+  animation: line-in 0.22s ease-out forwards;
+  animation-delay: calc(var(--boot-delay) + 0.95s + var(--i, 0) * 0.07s);
+}
+:root[data-motion="on"] .neofetch-art {
+  --i: 0;
+}
+:root[data-motion="on"] .terminal-prompt {
+  --i: 14;
+}
+@keyframes typing {
+  to {
+    width: 8ch;
+  }
+}
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* アンテナの電波 */
+.wave {
+  opacity: 0.15;
+}
+:root[data-motion="on"] .wave {
+  animation: wave 2.4s ease-out infinite;
+}
+.wave-l1,
+.wave-r1 {
+  animation-delay: 0s !important;
+}
+.wave-l2,
+.wave-r2 {
+  animation-delay: 0.25s !important;
+}
+.wave-l3,
+.wave-r3 {
+  animation-delay: 0.5s !important;
+}
+@keyframes wave {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+    color: var(--term-amber);
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* 触れるターミナル */
+.terminal-body {
+  max-height: 34rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.terminal-log .terminal-command,
+.terminal-log .terminal-output {
+  margin: 0;
+}
+.terminal-log .terminal-output {
+  color: var(--term-text);
+  margin-bottom: 0 !important;
+  white-space: pre-wrap;
+}
+.terminal-log .terminal-output a {
+  color: var(--term-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.terminal-log .tone-warn {
+  color: #ff7b72;
+}
+.terminal-log .tone-dir {
+  color: #79c0ff;
+}
+.terminal-log > :last-child {
+  margin-bottom: 8px !important;
+}
+.terminal-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.6ch;
+}
+.terminal-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--term-text);
+  caret-color: var(--term-accent);
+  font: inherit;
+}
+.terminal-input::placeholder {
+  color: var(--term-muted);
+  opacity: 0.7;
+}
+.terminal:focus-within {
+  border-color: var(--term-accent);
+}
+
+/* ネットワーク背景 */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero-inner {
+  position: relative;
+}
+.network-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 45%,
+    #000 100%
+  );
+  mask-image: linear-gradient(90deg, transparent 0%, #000 45%, #000 100%);
+}
+.network-links line {
+  stroke: var(--line);
+  stroke-width: 1.2;
+}
+.network-nodes circle {
+  fill: var(--surface-2);
+  stroke: var(--line);
+  stroke-width: 1.2;
+}
+.packet {
+  fill: var(--accent);
+}
+.packet-1 {
+  fill: var(--amber);
+}
+.packet-2 {
+  fill: #3b82f6;
+}
+
+/* スクロールでフェードイン */
+:root.reveal-ready
+  :is(
+    .section-header,
+    .affiliation,
+    .project-card,
+    .post-row,
+    .focus-card,
+    .award-strip a,
+    .award-list li,
+    .social-list li,
+    .skill-table > div
+  ):not(.is-visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+:root.reveal-ready
+  :is(
+    .section-header,
+    .affiliation,
+    .project-card,
+    .post-row,
+    .focus-card,
+    .award-strip a,
+    .award-list li,
+    .social-list li,
+    .skill-table > div
+  ) {
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.15s;
+  transition-delay:
+    calc(var(--reveal-i, 0) * 70ms), calc(var(--reveal-i, 0) * 70ms), 0s;
+}
+
+/* ホバーで枠が光って一周する */
+.project-card,
+.affiliation,
+.focus-card {
+  position: relative;
+}
+.project-card::before,
+.affiliation::before,
+.focus-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg 250deg,
+    var(--accent) 300deg,
+    var(--amber) 340deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+:root[data-motion="on"]
+  :is(.project-card, .affiliation, .focus-card):hover::before {
+  opacity: 1;
+  animation: border-spin 2.2s linear infinite;
+}
+@keyframes border-spin {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+/* トースト */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 150;
+  transform: translate(-50%, 20px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--term-bg);
+  color: var(--term-text);
+  border: 1px solid var(--term-accent);
+  font-size: 0.88rem;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* CRTモード（隠し要素） */
+:root.crt {
+  animation: crt-flicker 0.12s infinite alternate;
+}
+:root.crt body {
+  text-shadow:
+    0 0 2px currentColor,
+    0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+:root.crt body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, #0000 0 2px, #00000038 2px 3px),
+    radial-gradient(ellipse at center, #0000 60%, #0008 100%);
+  mix-blend-mode: multiply;
+}
+@keyframes crt-flicker {
+  from {
+    filter: brightness(1) saturate(1.1);
+  }
+  to {
+    filter: brightness(0.96) saturate(1.1);
+  }
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
   .hero-inner {
@@ -1473,6 +1831,14 @@ dialog::backdrop {
   }
   .neofetch-art {
     display: none;
+  }
+  .terminal-input {
+    font-size: 16px;
+  }
+  .network-bg {
+    opacity: 0.35;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   .post-row {
     grid-template-columns: 1fr;

@@ -2,6 +2,7 @@
 import Affiliations from '../components/Affiliations.astro';
 import Icon from '../components/Icon.astro';
 import Neofetch from '../components/Neofetch.astro';
+import NetworkBackground from '../components/NetworkBackground.astro';
 import PostCard from '../components/PostCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import SocialLinks from '../components/SocialLinks.astro';
@@ -18,7 +19,7 @@ const focus = [
   {
     icon: 'network' as const,
     title: 'Network',
-    text: 'SDCCでAS番号の払い出しを受け、BGP・IPv6・トンネルを実際に動かしながら学んでいます。',
+    text: 'SDCCのお力添えをいただきながら、BGP・IPv6・トンネルを実際に動かして勉強させてもらっています。',
   },
   {
     icon: 'server' as const,
@@ -35,6 +36,7 @@ const focus = [
 
 <Base>
   <section class="hero">
+    <NetworkBackground />
     <div class="container hero-inner">
       <div class="hero-copy">
         <p class="eyebrow mono">{profile.tagline}</p>

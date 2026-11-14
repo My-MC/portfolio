@@ -1,5 +1,3 @@
-export {};
-
 const themeButtons =
   document.querySelectorAll<HTMLButtonElement>('[data-theme-value]');
 const systemTheme = matchMedia('(prefers-color-scheme: dark)');
@@ -217,4 +215,134 @@ input?.addEventListener('input', () => {
           '検索を読み込めませんでした。時間をおいて入力し直してください。';
     }
   }, 180);
+});
+
+// ---------- アニメーション ----------
+const motion = document.documentElement.dataset.motion === 'on';
+const toastElement = document.querySelector<HTMLElement>('[data-toast]');
+let toastTimer: ReturnType<typeof setTimeout>;
+export function toast(message: string) {
+  if (!toastElement) return;
+  toastElement.textContent = message;
+  toastElement.classList.add('is-visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(
+    () => toastElement.classList.remove('is-visible'),
+    2400,
+  );
+}
+
+// 起動ログ：クリック・キー入力でスキップ。終わったら属性を外す。
+const bootScreen = document.querySelector<HTMLElement>('[data-boot-screen]');
+if ('boot' in document.documentElement.dataset && bootScreen) {
+  const finish = () => {
+    delete document.documentElement.dataset.boot;
+    document.documentElement.dataset.booted = '';
+  };
+  bootScreen.addEventListener('animationend', (event) => {
+    if (event.target === bootScreen) finish();
+  });
+  bootScreen.addEventListener('click', finish);
+  document.addEventListener('keydown', finish, { once: true });
+}
+
+// スクロールに合わせたフェードイン。JSが動かない場合は最初から表示される。
+const revealTargets = document.querySelectorAll<HTMLElement>(
+  '.section-header, .affiliation, .project-card, .post-row, .focus-card, .award-strip a, .award-list li, .activity-list li, .social-list li, .skill-table > div',
+);
+if (motion && 'IntersectionObserver' in window) {
+  document.documentElement.classList.add('reveal-ready');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px' },
+  );
+  for (const target of revealTargets) {
+    const siblings = target.parentElement
+      ? [...target.parentElement.children]
+      : [];
+    target.style.setProperty(
+      '--reveal-i',
+      String(Math.min(siblings.indexOf(target), 6)),
+    );
+    observer.observe(target);
+  }
+}
+
+// ボタン・ナビのデコード風ホバー
+const glyphs = {
+  ascii: '!<>-_\\/[]{}=+*^?#01',
+  wide: 'アイウエオカキクケコサシスセソタチツテト',
+};
+function scramble(element: HTMLElement) {
+  const node = [...element.childNodes].find(
+    (child) => child.nodeType === Node.TEXT_NODE && child.textContent?.trim(),
+  );
+  if (!node || element.dataset.scrambling) return;
+  const original = node.textContent ?? '';
+  element.dataset.scrambling = '1';
+  element.style.minWidth = `${element.getBoundingClientRect().width}px`;
+  let frame = 0;
+  const total = 12;
+  const tick = () => {
+    frame++;
+    const revealed = Math.floor((frame / total) * original.length);
+    node.textContent = [...original]
+      .map((char, index) => {
+        if (index < revealed || /\s/.test(char)) return char;
+        const set = /[\x21-\x7e]/.test(char) ? glyphs.ascii : glyphs.wide;
+        return set[Math.floor(Math.random() * set.length)];
+      })
+      .join('');
+    if (frame < total) requestAnimationFrame(() => setTimeout(tick, 28));
+    else {
+      node.textContent = original;
+      element.style.minWidth = '';
+      delete element.dataset.scrambling;
+    }
+  };
+  tick();
+}
+if (motion && matchMedia('(hover: hover)').matches) {
+  for (const element of document.querySelectorAll<HTMLElement>(
+    '.button, .desktop-nav a, .text-link',
+  ))
+    element.addEventListener('mouseenter', () => scramble(element));
+}
+
+// 背景のパケット：動きを減らす設定なら止める
+if (!motion)
+  for (const svg of document.querySelectorAll<SVGSVGElement>(
+    '[data-network-bg]',
+  ))
+    svg.pauseAnimations();
+
+// 隠しコマンド：↑↑↓↓←→←→BA でCRTモード
+const konami = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'b',
+  'a',
+];
+let konamiIndex = 0;
+document.addEventListener('keydown', (event) => {
+  const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+  konamiIndex =
+    key === konami[konamiIndex] ? konamiIndex + 1 : key === konami[0] ? 1 : 0;
+  if (konamiIndex === konami.length) {
+    konamiIndex = 0;
+    const on = document.documentElement.classList.toggle('crt');
+    toast(on ? '📺 CRTモード ON（もう一度で解除）' : 'CRTモード OFF');
+  }
 });

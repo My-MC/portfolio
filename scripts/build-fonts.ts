@@ -41,7 +41,9 @@ for (const file of sources) {
   } else text += source;
 }
 // 検索結果などJSで表示するUI文字列も含める。
-text += await readFile('src/lib/browser.ts', 'utf8');
+for (const file of await readdir('src/lib'))
+  if (file.endsWith('.ts'))
+    text += await readFile(join('src/lib', file), 'utf8');
 const characters = [...new Set([...text])].sort().join('');
 const destination = '.font-trial';
 await mkdir(destination, { recursive: true });
