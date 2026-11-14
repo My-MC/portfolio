@@ -23,12 +23,10 @@ const rows: [string, string][] = [
       .map((activity) => activity.name.replace('文化会 ', ''))
       .join(' / '),
   ],
-  ...awards
-    .slice(0, 1)
-    .map(
-      (award) =>
-        ['Award', `SBMC 2026 ${award.result}（Lumin）`] as [string, string],
-    ),
+  ...awards.map(
+    (award, index) =>
+      [index === 0 ? 'Awards' : '', award.short] as [string, string],
+  ),
   ['Homelab', 'Proxmox VE / Incus / VyOS'],
   ['Network', 'SDCC (BGP, IPv6)'],
   ['Langs', 'Rust / Python / TypeScript'],
@@ -56,7 +54,7 @@ const host = `${profile.displayName.toLowerCase()}@${profile.handle.toLowerCase(
         </div>
         {rows.map(([key, value]) => (
           <div>
-            <dt>{key}</dt>
+            <dt class:list={{ blank: !key }}>{key}</dt>
             <dd>{value}</dd>
           </div>
         ))}

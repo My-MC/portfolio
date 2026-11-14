@@ -127,8 +127,13 @@ export const activities: Activity[] = [
   {
     name: 'SIGINT',
     note: 'ネットワーク研究会',
-    interests: ['ネットワーク', 'ルーター・スイッチ', 'AS運用'],
-    text: '芝浦工大のネットワーク研究会。実機のスイッチ・ルーターに触れて学び、部室ネットワークの設計・運用から、将来的なAS運用・ピアリングやイベントのWi-Fi支援までを目指しています。自宅ラボやSDCCで試していることを、仲間と一緒に深められる場所です。',
+    interests: [
+      'ネットワーク',
+      'ルーター・スイッチ',
+      'トラブルシューティング',
+      'AS運用',
+    ],
+    text: '芝浦工大のネットワーク研究会。実機のスイッチ・ルーターに触れて学び、部室ネットワークの設計・運用から、将来的なAS運用・ピアリングやイベントのWi-Fi支援までを目指しています。チームでICTSC（ICTトラブルシューティングコンテスト）2026の一次予選を突破しました。自宅ラボやSDCCで試していることを、仲間と一緒に深められる場所です。',
     url: 'https://sigint179.net/',
   },
 ];
@@ -137,6 +142,10 @@ export interface Award {
   date: string;
   title: string;
   result: string;
+  /** neofetch・curl名刺用の短い表記 */
+  short: string;
+  /** トップの帯に出すリンク文言 */
+  linkLabel: string;
   detail: string;
   /** サイト内のプロジェクトページ */
   project?: string;
@@ -149,9 +158,21 @@ export const awards: Award[] = [
     title:
       '第11回 芝浦ビジネスモデルコンペティション（SBMC）ビジネスアイデア部門',
     result: '銅賞',
+    short: 'SBMC 2026 銅賞（Lumin）',
+    linkLabel: 'Lumin',
     detail:
       'ALGメンバーのチーム「Luminous Studying」として、端末内AIで学習を支援するアプリ「Lumin」を提案。',
     project: '/projects/lumin/',
     url: 'https://www.shibaura-it.ac.jp/headline/detail/20260927_7070_2.html',
+  },
+  {
+    date: '2026-09-19',
+    title: 'ICTトラブルシューティングコンテスト（ICTSC）一次予選',
+    result: '一次予選突破',
+    short: 'ICTSC 一次予選突破（SIGINT）',
+    linkLabel: 'SIGINTの記事',
+    detail:
+      'SIGINTのチームとして参加。実際のネットワーク・サーバー環境で起きるトラブルを制限時間内に解決するコンテストで、47チーム中15位となり二次予選に進出。',
+    url: 'https://sigint179.net/activities/ictsc-2026-yosen',
   },
 ];

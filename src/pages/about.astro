@@ -59,7 +59,7 @@ import Base from '../layouts/Base.astro';
     <section class="section-sm" aria-labelledby="awards-title">
       <h2 id="awards-title" class="sub-heading">
         <span class="prompt-sign mono" aria-hidden="true">#</span>
-        受賞
+        受賞・実績
       </h2>
       <ul class="award-list">
         {awards.map((award) => (
@@ -68,7 +68,9 @@ import Base from '../layouts/Base.astro';
               <time class="mono" datetime={award.date}>
                 {award.date.replaceAll('-', '/')}
               </time>
-              <span class="award-badge">🏆 {award.result}</span>
+              <span class="award-badge">
+                {award.result.includes('賞') ? '🏆' : '🚩'} {award.result}
+              </span>
             </p>
             <h3>{award.title}</h3>
             <p>{award.detail}</p>
@@ -76,7 +78,7 @@ import Base from '../layouts/Base.astro';
               {award.project && (
                 <a href={award.project}>プロジェクトを見る →</a>
               )}
-              {award.url && <a href={award.url}>大学の公式記事 ↗</a>}
+              {award.url && <a href={award.url}>関連記事 ↗</a>}
             </p>
           </li>
         ))}

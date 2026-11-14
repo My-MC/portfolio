@@ -1,4 +1,4 @@
-import { activities, profile, site, social } from '../data/site';
+import { activities, awards, profile, site, social } from '../data/site';
 
 /**
  * `curl -sL <site>/hi` で表示する名刺（ANSIカラー）。
@@ -32,7 +32,9 @@ export function GET() {
     `  ${label('Faculty')}${profile.school.faculty}`,
     `  ${label('Course')}${profile.school.course}`,
     `  ${label('Clubs')}${activities.map((a) => a.name.replace('文化会 ', '')).join(' / ')}`,
-    `  ${label('Award')}SBMC 2026 銅賞（Lumin / ALG）`,
+    ...awards.map(
+      (award, index) => `  ${label(index === 0 ? 'Awards' : '')}${award.short}`,
+    ),
     `  ${label('Likes')}${profile.interests.join(', ')}`,
     '',
     ...social.map((item) => `  ${label(item.label)}${item.url}`),

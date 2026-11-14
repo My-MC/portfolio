@@ -75,12 +75,14 @@ const focus = [
     </section>
   )}
   {awards.length > 0 && (
-    <section class="container award-strip" aria-label="受賞">
+    <section class="container award-strip" aria-label="受賞・実績">
       {awards.map((award) => (
         <a href={award.project ?? award.url}>
-          <span class="award-badge">🏆 {award.result}</span>
+          <span class="award-badge">
+            {award.result.includes('賞') ? '🏆' : '🚩'} {award.result}
+          </span>
           <span>{award.title}</span>
-          <span class="mono muted">Lumin →</span>
+          <span class="mono muted">{award.linkLabel} →</span>
         </a>
       ))}
     </section>
