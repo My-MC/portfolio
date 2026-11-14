@@ -220,6 +220,10 @@ input?.addEventListener('input', () => {
   }, 180);
 });
 
+// 表示中のホスト名に合わせる（プレビューや別ドメインで見ても正しいURLになる）
+for (const element of document.querySelectorAll('[data-current-host]'))
+  element.textContent = location.host;
+
 // ---------- アニメーション ----------
 const motion = document.documentElement.dataset.motion === 'on';
 const toastElement = document.querySelector<HTMLElement>('[data-toast]');

@@ -39,7 +39,9 @@ Workers & Pages → Create → Import a repository で `My-MC/portfolio` を選�
 
 公開URLは `src/data/site.ts` の既定値 `https://my-mc.dev` を使うので、`SITE_URL` の設定は不要です（別のURLで公開するときだけ設定します）。canonical・OGP・RSS・サイトマップ・`/hi` はすべてこのURLになります。
 
-`main` 以外のブランチは自動的に `noindex` と robots 全拒否でビルドされ、workers.dev のプレビューには Cloudflare も `X-Robots-Tag: noindex` を付けます。プレビューの canonical は本番URLを指します。
+`main` 以外のブランチは自動的に `noindex` と robots 全拒否でビルドされ、workers.dev のプレビューには Cloudflare も `X-Robots-Tag: noindex` を付けます。
+
+プレビューでは、ブランチ名から Preview 名（例：`feature/Add_X` → `feature-add-x`）とURL `https://feature-add-x-portfolio.my-mc.workers.dev` を `scripts/preview-target.ts` の同じ規則で決め、ビルド（canonical・OGP・`/hi` に埋め込むURL）とデプロイ（`wrangler preview --name`）の両方に使います。そのためプレビュー内のURLも本番ではなく、そのプレビュー自身を指します。トップのcurlコマンドの表示は、さらに閲覧中のホスト名に実行時に合わせます（個別デプロイURLや `portfolio.my-mc.workers.dev` で見た場合も正しく表示されます）。
 
 最初の `main` のデプロイで `routes` の Custom Domain が作成され、DNSレコードと証明書が自動で用意されます（反映まで数分かかることがあります）。
 

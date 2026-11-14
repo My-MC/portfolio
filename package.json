@@ -28,7 +28,8 @@
     "qr": "bun scripts/build-qr.ts",
     "build:cloudflare": "bun scripts/build-cloudflare.ts",
     "preview:cloudflare": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "preview:deploy": "bun scripts/deploy-preview.ts"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.5",
