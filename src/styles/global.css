@@ -778,30 +778,141 @@ h2 > .prompt-sign:first-child {
   font-size: 0.95rem;
   font-weight: 400;
 }
-.activity-list {
+.affiliations {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
 }
-.activity-list li {
-  padding: 18px 22px;
+.affiliation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 22px;
   border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--surface);
 }
-.activity-list h3 {
-  margin-bottom: 4px;
+.affiliation-name {
+  margin: 0;
+  font-size: 1.1rem;
 }
-.activity-list a {
+.affiliation-name a:hover {
   color: var(--accent);
 }
-.activity-list p {
+.affiliation-note {
   margin: 0;
+  font-size: 0.78rem;
+  color: var(--amber);
+}
+.affiliation-text {
+  margin: 0 0 6px;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+}
+.affiliation .tech-list {
+  margin-top: auto;
+}
+.curl-hint {
+  margin: 22px 0 0;
+  font-size: 0.82rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: center;
+}
+.curl-hint code {
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--term-bg);
+  color: var(--term-accent);
+  overflow-wrap: anywhere;
+}
+.neofetch {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin: 8px 0 12px;
+}
+.neofetch-art {
+  margin: 0;
+  color: var(--term-accent);
+  font-family: var(--font-code);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  flex-shrink: 0;
+}
+.neofetch-info {
+  margin: 0;
+  min-width: 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.neofetch-info > div {
+  display: flex;
+  gap: 8px;
+}
+.neofetch-info dt {
+  color: var(--term-accent);
+  font-weight: 700;
+  min-width: 4.8em;
+}
+.neofetch-info dt::after {
+  content: ":";
+}
+.neofetch-info dt.blank::after {
+  content: "";
+}
+.neofetch-info dd {
+  margin: 0;
+  color: var(--term-text);
+  overflow-wrap: anywhere;
+  font-family: var(--font-body);
+}
+.neofetch-host {
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  border-bottom: 1px dashed #ffffff26;
+}
+.neofetch-host dd {
+  color: var(--term-amber) !important;
+  font-family: var(--font-code) !important;
+  font-weight: 700;
+}
+.neofetch-colors {
+  margin-top: 8px;
+  gap: 0 !important;
+}
+.neofetch-colors span {
+  width: 18px;
+  height: 12px;
+}
+.neofetch-colors .c0 {
+  background: #2e3436;
+}
+.neofetch-colors .c1 {
+  background: #ff5f57;
+}
+.neofetch-colors .c2 {
+  background: #28c840;
+}
+.neofetch-colors .c3 {
+  background: #febc2e;
+}
+.neofetch-colors .c4 {
+  background: #3b82f6;
+}
+.neofetch-colors .c5 {
+  background: #c678dd;
+}
+.neofetch-colors .c6 {
+  background: #5fe3c8;
+}
+.neofetch-colors .c7 {
+  background: #d7e3e0;
 }
 .skill-table {
   margin: 0;
@@ -1253,6 +1364,500 @@ dialog::backdrop {
   margin-bottom: 0;
 }
 
+/* ---------- awards ---------- */
+.award-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: #b4692e22;
+  border: 1px solid #b4692e;
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.award-strip {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+.award-strip a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 14px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 0.92rem;
+  transition: border-color 0.15s;
+}
+.award-strip a:hover {
+  border-color: var(--amber);
+}
+.award-strip .mono {
+  margin-left: auto;
+  font-size: 0.82rem;
+}
+.award-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.award-list li {
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--amber);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.award-list h3 {
+  margin: 6px 0 4px;
+}
+.award-list p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.award-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.award-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin-top: 8px !important;
+}
+.award-links a {
+  color: var(--accent);
+}
+
+/* ---------- motion ---------- */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* 起動ログ（トップ初回のみ） */
+.boot {
+  display: none;
+}
+:root[data-boot] .boot {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  place-items: center;
+  background: #080b0c;
+  color: #d7e3e0;
+  font-family: var(--font-code);
+  font-size: clamp(0.78rem, 2.6vw, 0.95rem);
+  cursor: pointer;
+  animation: boot-out 0.35s ease-in 1.55s forwards;
+}
+.boot-log {
+  width: min(520px, calc(100% - 40px));
+}
+.boot-log p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: boot-line 0.01s linear calc(var(--n) * 0.18s + 0.1s) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-ok {
+  color: #28c840;
+}
+.boot-skip {
+  margin-top: 18px !important;
+  color: #7f9590;
+  font-size: 0.75em;
+}
+@keyframes boot-line {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes boot-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* neofetchのタイピング */
+:root {
+  --boot-delay: 0s;
+}
+:root[data-boot] {
+  --boot-delay: 1.7s;
+}
+:root[data-motion="on"] .typed {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: typing 0.55s steps(8, end) calc(var(--boot-delay) + 0.25s) forwards;
+}
+:root[data-motion="on"] .neofetch-art,
+:root[data-motion="on"] .neofetch-info > div,
+:root[data-motion="on"] .terminal-prompt {
+  opacity: 0;
+  animation: line-in 0.22s ease-out forwards;
+  animation-delay: calc(var(--boot-delay) + 0.95s + var(--i, 0) * 0.07s);
+}
+:root[data-motion="on"] .neofetch-art {
+  --i: 0;
+}
+:root[data-motion="on"] .terminal-prompt {
+  --i: 14;
+}
+@keyframes typing {
+  to {
+    width: 8ch;
+  }
+}
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* アンテナの電波 */
+.wave {
+  opacity: 0.15;
+}
+:root[data-motion="on"] .wave {
+  animation: wave 2.4s ease-out infinite;
+}
+.wave-l1,
+.wave-r1 {
+  animation-delay: 0s !important;
+}
+.wave-l2,
+.wave-r2 {
+  animation-delay: 0.25s !important;
+}
+.wave-l3,
+.wave-r3 {
+  animation-delay: 0.5s !important;
+}
+@keyframes wave {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+    color: var(--term-amber);
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* 触れるターミナル */
+.terminal-body {
+  max-height: 34rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.terminal-log .terminal-command,
+.terminal-log .terminal-output {
+  margin: 0;
+}
+.terminal-log .terminal-output {
+  color: var(--term-text);
+  margin-bottom: 0 !important;
+  white-space: pre-wrap;
+}
+.terminal-log .terminal-output a {
+  color: var(--term-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.terminal-log .tone-warn {
+  color: #ff7b72;
+}
+.terminal-log .tone-dir {
+  color: #79c0ff;
+}
+.terminal-log > :last-child {
+  margin-bottom: 8px !important;
+}
+.terminal-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.6ch;
+}
+.terminal-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+.terminal-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--term-text);
+  caret-color: transparent;
+  font: inherit;
+}
+.terminal-input:focus-visible {
+  outline: 0;
+}
+/* 幅の計測用（入力欄と同じフォントで、カーソル位置までの文字を置く） */
+.terminal-mirror {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  pointer-events: none;
+}
+/* ブロックカーソル：下の文字を反転表示する */
+.block-cursor {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  min-width: 1ch;
+  line-height: 1.35;
+  white-space: pre;
+  pointer-events: none;
+  color: transparent;
+  box-shadow: inset 0 0 0 1px var(--term-accent);
+}
+.terminal-field.is-focused .block-cursor {
+  background: var(--term-accent);
+  color: var(--term-bg);
+  box-shadow: none;
+  animation: block-blink 1.06s steps(1) infinite;
+}
+.terminal-field.is-typing .block-cursor {
+  animation: none;
+}
+@keyframes block-blink {
+  50% {
+    background: transparent;
+    color: transparent;
+  }
+}
+.terminal-input::placeholder {
+  color: var(--term-muted);
+  opacity: 0.7;
+}
+.terminal:focus-within {
+  border-color: var(--term-accent);
+}
+
+/* ネットワーク背景 */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero-inner {
+  position: relative;
+}
+.network-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 45%,
+    #000 100%
+  );
+  mask-image: linear-gradient(90deg, transparent 0%, #000 45%, #000 100%);
+}
+.network-links line {
+  stroke: var(--line);
+  stroke-width: 1.2;
+}
+.network-nodes circle {
+  fill: var(--surface-2);
+  stroke: var(--line);
+  stroke-width: 1.2;
+}
+.packet {
+  fill: var(--accent);
+}
+.packet-1 {
+  fill: var(--amber);
+}
+.packet-2 {
+  fill: #3b82f6;
+}
+
+/* ホバーで枠が光って一周する */
+.project-card,
+.affiliation,
+.focus-card {
+  position: relative;
+}
+.project-card::before,
+.affiliation::before,
+.focus-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg 250deg,
+    var(--accent) 300deg,
+    var(--amber) 340deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+:root[data-motion="on"]
+  :is(.project-card, .affiliation, .focus-card):hover::before {
+  opacity: 1;
+  animation: border-spin 2.2s linear infinite;
+}
+@keyframes border-spin {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+/* トースト */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 150;
+  transform: translate(-50%, 20px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--term-bg);
+  color: var(--term-text);
+  border: 1px solid var(--term-accent);
+  font-size: 0.88rem;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* CRTモード（隠し要素） */
+:root.crt {
+  animation: crt-flicker 0.12s infinite alternate;
+}
+:root.crt body {
+  text-shadow:
+    0 0 2px currentColor,
+    0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+:root.crt body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, #0000 0 2px, #00000038 2px 3px),
+    radial-gradient(ellipse at center, #0000 60%, #0008 100%);
+  mix-blend-mode: multiply;
+}
+@keyframes crt-flicker {
+  from {
+    filter: brightness(1) saturate(1.1);
+  }
+  to {
+    filter: brightness(0.96) saturate(1.1);
+  }
+}
+
+/* モバイルメニュー内のテーマ切替 */
+.mobile-theme {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 12px 12px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.mobile-theme-label {
+  float: left;
+  margin-right: 4px;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.theme-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.theme-chip[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+/* 長い入力でターミナル全体が横に伸びないようにする */
+.terminal-field {
+  overflow: hidden;
+}
+/* 行末でもブロックカーソルが収まるよう右に余白を取る */
+.terminal-input {
+  padding-right: 1.2em;
+}
+.terminal-body {
+  overflow-x: hidden;
+}
+.project-card-top {
+  flex-wrap: wrap;
+}
+.status {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
   .hero-inner {
@@ -1281,8 +1886,23 @@ dialog::backdrop {
   .mobile-toggle {
     display: inline-grid;
   }
-  .project-grid {
+  .project-grid,
+  .affiliations {
     grid-template-columns: 1fr;
+  }
+  .neofetch-art {
+    display: none;
+  }
+  .terminal-input,
+  .terminal-mirror,
+  .block-cursor,
+  .search-field input {
+    font-size: 16px;
+  }
+  .network-bg {
+    opacity: 0.35;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   .post-row {
     grid-template-columns: 1fr;
