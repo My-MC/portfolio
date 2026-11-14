@@ -25,6 +25,7 @@ const { data } = project;
       {statuses[data.status]}
     </span>
     {data.role && <span class="project-role">{data.role}</span>}
+    {data.award && <span class="award-badge">🏆 {data.award}</span>}
   </div>
   <h3>
     <a href={`/projects/${project.id}/`} class="stretched">{data.title}</a>

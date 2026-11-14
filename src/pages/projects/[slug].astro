@@ -39,6 +39,7 @@ const breadcrumbs = [
             {statuses[data.status]}
           </span>
           {data.role && <span>{data.role}</span>}
+          {data.award && <span class="award-badge">🏆 {data.award}</span>}
           {data.draft && <span class="draft-badge">下書き・ローカル限定</span>}
         </div>
         <h1 data-pagefind-meta="title">{data.title}</h1>
