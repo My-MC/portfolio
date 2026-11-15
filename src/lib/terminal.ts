@@ -218,7 +218,6 @@ if (root && body && log && form && input && data) {
       return [
         `PING ${host}: 56 data bytes`,
         `64 bytes from ${host}: icmp_seq=0 ttl=64 time=0.19 ms`,
-        '名刺の持ち主はちゃんと生きています。会場で声をかけてください！',
       ];
     },
     sudo: () => [
