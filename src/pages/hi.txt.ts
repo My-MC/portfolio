@@ -8,7 +8,6 @@ const esc = (code: string) => `\x1b[${code}m`;
 const reset = esc('0');
 const bold = (s: string) => `${esc('1')}${s}${reset}`;
 const cyan = (s: string) => `${esc('36')}${s}${reset}`;
-const yellow = (s: string) => `${esc('33')}${s}${reset}`;
 const dim = (s: string) => `${esc('2')}${s}${reset}`;
 
 export function GET() {
@@ -40,7 +39,6 @@ export function GET() {
     ...social.map((item) => `  ${label(item.label)}${item.url}`),
     `  ${label('Web')}${site.url}/`,
     '',
-    `  ${yellow('名刺を受け取ってくださりありがとうございます！ 気軽に声をかけてください。')}`,
     `  ${dim('(this card is served as a static file from Cloudflare Workers)')}`,
     '',
   ];
