@@ -19,10 +19,7 @@ export const site = {
   /** このサイトのソースコード（Links・Aboutに表示） */
   repository: 'https://github.com/My-MC/portfolio',
   /** 名刺から来た人向けのあいさつ（不要になったら null） */
-  welcome:
-    '自鯖缶で名刺を受け取ってくださった方、ありがとうございます！気軽に声をかけてください。' as
-      | string
-      | null,
+  welcome: null as string | null,
 };
 
 export const profile = {
